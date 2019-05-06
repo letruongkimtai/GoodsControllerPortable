@@ -3,12 +3,23 @@ import {
     ImageBackground,
     StyleSheet,
 } from 'react-native';
+import {
+    Button,
+    Text,
+} from 'native-base';
 
-export default class Product extends Component {
-    
+export default class ProductList extends Component {
+    static navigationOptions={
+        headerStyle:{
+            backgroundColor:'#095FC8'
+        }
+    }
     render() {
         return (
             <ImageBackground style={styles.container} source={require('../../../assets/images/background.png')}>
+                <Button success onPress={()=>{this.props.navigation.navigate('ProductDetails')}}>
+                    <Text>Chi tiết sản phẩm</Text>
+                </Button>
             </ImageBackground>
         );
     }

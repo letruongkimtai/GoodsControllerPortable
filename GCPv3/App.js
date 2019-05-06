@@ -8,16 +8,27 @@
  */
 
 import Home from './src/components/home/Home';
-import Product from './src/components/product/Product';
+import ProductList from './src/components/product/ProductList';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
+import ProductDetails from './src/components/product/ProductDetails';
+import OrderDetail from './src/components/order/OrderDetail';
+import UnconfirmedOrders from './src/components/home/UnconfirmedOrders';
 
 const Navigation = createStackNavigator({
     Home: {
         screen: Home,
     },
-    Product: {
-        screen: Product,
-    }
+    OrderDetail:{
+        screen: OrderDetail,
+    },
+    ProductList: {
+        screen: ProductList,
+    },
+    ProductDetails:{
+        screen: ProductDetails,
+    },
+   
+    
 });
 
 export default App = createAppContainer(Navigation);
