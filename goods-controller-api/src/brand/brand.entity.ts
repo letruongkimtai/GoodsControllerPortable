@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import { ProductEntity } from 'src/product/product.entity';
 
 @Entity('brand')
 export class BrandEntity{
@@ -7,4 +8,7 @@ export class BrandEntity{
 
     @Column('text')
     brand_name:string;
+
+    @OneToMany(type=>ProductEntity,product=>product.prBrand)
+    product:ProductEntity
 }
