@@ -1,0 +1,6 @@
+export interface branchDTO{
+    branch_name:string,
+    branch_address:string,
+    district_province:string,
+    branch_tel:string,
+}

@@ -9,6 +9,9 @@ export class BranchEntity{
     branch_name:string;
 
     @Column('text')
+    branch_tel:string;
+
+    @Column('text')
     branch_address:string;
 
     @Column('text')
