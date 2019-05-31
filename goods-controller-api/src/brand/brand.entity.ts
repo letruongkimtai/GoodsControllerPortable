@@ -10,5 +10,5 @@ export class BrandEntity{
     brand_name:string;
 
     @OneToMany(type=>ProductEntity,product=>product.prBrand)
-    product:ProductEntity[];
+    product:ProductEntity
 }

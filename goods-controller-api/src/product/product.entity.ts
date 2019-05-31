@@ -16,12 +16,9 @@ export class ProductEntity{
     @Column('int')
     amount:number;
 
-    @ManyToOne(type=>ProductTypeEntity,(prType:ProductTypeEntity) => prType.product) 
-    prType: ProductTypeEntity; //define the entity for relationship
-    @Column('int') prTypeTypeId: number;
-    
+    @ManyToOne(type=>ProductTypeEntity,prType=>prType.product) 
+    prType: ProductTypeEntity //define the entity for relationship
     @ManyToOne(type=>BrandEntity,prBrand=>prBrand.product)
-    prBrand: BrandEntity;
-    @Column('int') prBrandBrandId: number;
+    prBrand: BrandEntity
 
 }

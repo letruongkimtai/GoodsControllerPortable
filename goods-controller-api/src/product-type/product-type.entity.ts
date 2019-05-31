@@ -10,5 +10,5 @@ export class ProductTypeEntity{
     type_name:string;
 
     @OneToMany(type=>ProductEntity,product=>product.prType) //call the enitty for relationship
-    product:ProductEntity[]; //define for oposite entity
+    product:ProductEntity //define for oposite entity
 }
