@@ -5,12 +5,13 @@ import { AppService } from './app.service';
 import { ProductTypeModule } from './product-type/product-type.module';
 import { BrandModule } from './brand/brand.module';
 import { ProductModule } from './product/product.module';
+import { BranchModule } from './branch/branch.module';
 
 
 
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule], //define module in the root
+  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule, BranchModule], //define module in the root
   controllers: [AppController],
   providers: [AppService],
 })
