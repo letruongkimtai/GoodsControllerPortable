@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import {UserEntity} from '../user/user.entity'
 
 @Entity('branch')
 export class BranchEntity{
