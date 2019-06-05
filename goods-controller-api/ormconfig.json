@@ -5,8 +5,8 @@
     "username": "postgres",
     "password": "7193627a",
     "database": "goods_controller",
-    "synchronize": true,
     "logging": true,
+    "synchronize": true,
     "entities": [
         "./src/**/*.entity.ts",
         "./dist/**/*.entity.js"

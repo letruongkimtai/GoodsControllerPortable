@@ -1,13 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, OneToOne, ManyToOne } from 'typeorm'
+import { BorrowDetailEntity } from 'src/borrow-detail/borrow-detail.entity';
+import { UserEntity } from 'src/user/user.entity';
 
 @Entity('borrow')
 export class BorrowEntity{
-    @PrimaryGeneratedColumn('increment')
-    borrow_id:number;
+    @PrimaryGeneratedColumn('uuid')
+    id:string;
 
     @CreateDateColumn()
-    borrow_date:Date;
+    created:Date;
     
     @CreateDateColumn()
-    returning_date:Date;
+    returned:Date;
+
+    @Column('boolean')
+    status:Boolean;
+
+    @OneToMany(type=>BorrowDetailEntity,borrow_dt=>borrow_dt.borrow)
+    borrow_dt:BorrowDetailEntity[];
+
+    @ManyToOne(type=>UserEntity,(user:UserEntity)=>user.borrow)
+    user:UserEntity;
+    @Column('uuid')
+    userUserId:string;
 }

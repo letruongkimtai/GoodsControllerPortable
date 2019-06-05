@@ -1,6 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, OneToMany } from 'typeorm'
 import {ProductTypeEntity} from '../product-type/product-type.entity'
 import { BrandEntity } from 'src/brand/brand.entity';
+import { OrderDetailEntity } from 'src/order-detail/order-detail.entity';
+import { BorrowDetailEntity } from 'src/borrow-detail/borrow-detail.entity';
+import { DeliveryDetailEntity } from 'src/delivery-detail/delivery-detail.entity';
 
 @Entity('product')
 export class ProductEntity{
@@ -23,5 +26,15 @@ export class ProductEntity{
     @ManyToOne(type=>BrandEntity,prBrand=>prBrand.product)
     prBrand: BrandEntity;
     @Column('int') prBrandBrandId: number;
+
+    @OneToOne(type=>OrderDetailEntity,detail=>detail.product)
+    detail:OrderDetailEntity[];
+
+    @OneToMany(type=>BorrowDetailEntity,borrowdt=>borrowdt.product)
+    borrowdt:BorrowDetailEntity[];
+
+    @OneToMany(type=>DeliveryDetailEntity,delivery_detail=>delivery_detail.product)
+    delivery_detail:DeliveryDetailEntity[];
+
 
 }

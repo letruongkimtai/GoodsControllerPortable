@@ -1,10 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, BeforeInsert } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, BeforeInsert, OneToMany } from 'typeorm'
 import { BranchEntity } from 'src/branch/branch.entity';
 import { async } from 'rxjs/internal/scheduler/async';
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import { UserRO } from './user.dto';
 import { Logger } from '@nestjs/common';
+import { OrderEntity } from 'src/order/order.entity';
+import { BorrowDetailEntity } from 'src/borrow-detail/borrow-detail.entity';
+import { DeliveryEntity } from 'src/delivery/delivery.entity';
+import { BorrowEntity } from 'src/borrow/borrow.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -38,12 +42,16 @@ export class UserEntity {
     @Column('text')
     department: string;
 
-    // @Column('int')
-    // branchBranchId: number;
-    // @ManyToOne(type => BranchEntity, (branch: BranchEntity) => branch.user)
-    // branch: BranchEntity; //define the entity for relationship
-    
+    @OneToMany(type=>OrderEntity,order=>order.user) //call the enitty for relationship
+    order:OrderEntity[]; //define for oposite entity
 
+    @OneToMany(type=>BorrowEntity,borrow=>borrow.user)
+    borrow:BorrowEntity[];
+
+    @OneToMany(type=>DeliveryEntity,delivery=>delivery.user)
+    delivery:DeliveryEntity[];
+
+    
     //method
     @BeforeInsert()
     async hashPassword() { //hash the password before insert to db
