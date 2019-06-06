@@ -12,7 +12,7 @@ export class OrderService {
     ){}
 
     async showAllOrder(){
-        return await this.orderRepository.find();
+        return await this.orderRepository.find({relations:['user']});
     }
 
     async addOrder(data:OrderDTO){

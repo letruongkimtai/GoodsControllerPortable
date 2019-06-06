@@ -8,12 +8,15 @@ import { ProductModule } from './product/product.module';
 import { BranchModule } from './branch/branch.module';
 import { UserModule } from './user/user.module';
 import { OrderModule } from './order/order.module';
+import { OrderDetailModule } from './order-detail/order-detail.module';
+import { DeliveryModule } from './delivery/delivery.module';
+import { DeliveryDetailModule } from './delivery-detail/delivery-detail.module';
 
 
 
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule, BranchModule, UserModule, OrderModule], //define module in the root
+  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule, BranchModule, UserModule, OrderModule, OrderDetailModule, DeliveryModule, DeliveryDetailModule], //define module in the root
   controllers: [AppController],
   providers: [AppService],
 })

@@ -6,17 +6,17 @@ import { OrderEntity } from 'src/order/order.entity';
 @Entity('order_detail')
 export class OrderDetailEntity{
     @PrimaryGeneratedColumn('increment')
-    id:string;
-
-    @ManyToOne(type=>ProductEntity,(product:ProductEntity)=>product.detail)
-    product:ProductEntity
-    @Column('uuid')
-    productProductId:string;
+    id:number;
 
     @ManyToOne(type=>OrderEntity,(order:OrderEntity)=>order.detail)
     order:OrderEntity;
     @Column('uuid')
     orderId:string;
+    
+    @ManyToOne(type=>ProductEntity,(product:ProductEntity)=>product.detail)
+    product:ProductEntity
+    @Column('uuid')
+    productProductId:string;
 
     @Column('int')
     quantity:number;

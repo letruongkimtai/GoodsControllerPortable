@@ -10,8 +10,8 @@ export class DeliveryEntity{
     @CreateDateColumn()
     created:Date;
 
-    @Column('text')
-    status:string;
+    @Column('boolean')
+    status:Boolean;
 
     @ManyToOne(type=>UserEntity,(user:UserEntity)=>user.delivery)
     user:UserEntity;
@@ -20,4 +20,7 @@ export class DeliveryEntity{
 
     @OneToMany(type=>DeliveryDetailEntity,delivery_detail=>delivery_detail.delivery)
     delivery_detail:DeliveryDetailEntity[];
+
+    @Column('text',{nullable:true})
+    note:string;
 }

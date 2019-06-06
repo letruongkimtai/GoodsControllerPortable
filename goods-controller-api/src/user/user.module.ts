@@ -5,9 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { BranchEntity } from 'src/branch/branch.entity';
 import { OrderEntity } from 'src/order/order.entity';
+import { BorrowEntity } from 'src/borrow/borrow.entity';
+import { DeliveryEntity } from 'src/delivery/delivery.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([UserEntity,BranchEntity,OrderEntity])],
+  imports:[TypeOrmModule.forFeature([UserEntity,BranchEntity,OrderEntity,BorrowEntity,DeliveryEntity])],
   providers: [UserService],
   controllers: [UserController]
 })
