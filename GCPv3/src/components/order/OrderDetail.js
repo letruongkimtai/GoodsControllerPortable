@@ -13,9 +13,7 @@ import {
 
 export default class OrderDetail extends Component {
     static navigationOptions = {
-        headerStyle: {
-            backgroundColor: '#095FC8'
-        }
+        header:null,
     }
     render() {
         return (

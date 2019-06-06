@@ -14,7 +14,8 @@ export default class Home extends Component {
     static navigationOptions={
         headerStyle:{
             backgroundColor:'#095FC8'
-        }
+        },
+        header:null,
     }
     render() {
         return (
