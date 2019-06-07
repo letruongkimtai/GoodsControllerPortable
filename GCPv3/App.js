@@ -14,10 +14,14 @@ import ProductDetails from './src/components/product/ProductDetails';
 import OrderDetail from './src/components/order/OrderDetail';
 import UnconfirmedOrders from './src/components/home/UnconfirmedOrders';
 import Login from './src/components/user/Login'
+import SignUp from './src/components/user/SignUp';
 
 const Navigation = createStackNavigator({
     Login:{
         screen: Login,
+    },
+    SignUp:{
+        screen:SignUp,
     },
     Home: {
         screen: Home,
