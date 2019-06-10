@@ -24,19 +24,21 @@ export default class LoginForm extends Component {
                         <View style={login.input}>
 
                             <TextInput style={login.infoInput}
-                                placeholder='Username'
+                                placeholder='Tên đăng nhập'
                                 placeholderTextColor='white'
                                 onChangeText={(text)=>this.setState({userName:text})}/>
 
                             <TextInput style={login.infoInput} 
-                                placeholder='Password'
+                                placeholder='Mật khẩu'
                                 placeholderTextColor='white'
                                 secureTextEntry={true}
                                 onChangeText={(text)=>this.setState({password:text})}/>
 
                             <Text 
                                 style={login.dontHaveAccount}
-                                onPress={()=>this.props.nav.navigate('SignUp')}>Chưa có tài khoản ?</Text>
+                                onPress={()=>this.props.nav.navigate('SignUp')}>
+                                Chưa có tài khoản ?
+                            </Text>
                         </View>
                         <TouchableOpacity 
                             style={login.button}
