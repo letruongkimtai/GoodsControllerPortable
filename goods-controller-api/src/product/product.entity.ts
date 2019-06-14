@@ -14,9 +14,6 @@ export class ProductEntity{
     product_name:string;
 
     @Column('text')
-    product_image:string;
-
-    @Column('text')
     area:string;
 
     @Column('int')
