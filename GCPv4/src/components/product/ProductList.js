@@ -7,6 +7,7 @@ import {
     Button,
     Text,
 } from 'native-base';
+import ActionButton from 'react-native-action-button';
 
 export default class ProductList extends Component {
     render() {
@@ -15,6 +16,7 @@ export default class ProductList extends Component {
                 <Button success>
                     <Text>Chi tiết sản phẩm</Text>
                 </Button>
+                <ActionButton buttonColor='#21C184' onPress={()=>this.props.navigation.navigate('ProductModal')}></ActionButton>
             </ImageBackground>
         );
     }

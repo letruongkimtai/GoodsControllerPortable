@@ -5,7 +5,6 @@ import {
     Text,
     ImageBackground,
 } from 'react-native';
-import ActionButton from 'react-native-action-button';
 import Remind from './Remind';
 import UnconfirmedOrders from './UnconfirmedOrders';
 import AddButton from '../buttons/AddButton';
@@ -27,7 +26,6 @@ export default class Home extends Component {
                 <View style={styles.outOfStock} >
                     <Text onPress={() => this.props.navigation.navigate('ProductList')}>outOfStock</Text>
                 </View>
-                <AddButton/>
             </ImageBackground>
         );
     }

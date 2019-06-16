@@ -7,7 +7,7 @@ import {
 export default class AddButton extends Component {
     render() {
         return (
-            <ActionButton buttonColor='#21C184'>
+            <ActionButton buttonColor='#21C184' onPress={this.props.nav('ProductModal')}>
             </ActionButton>
         );
     }

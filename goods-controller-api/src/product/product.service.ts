@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, createQueryBuilder } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ProductEntity } from './product.entity';
@@ -23,6 +23,13 @@ export class ProductService {
         console.log(data);
         await this.productRepository.save(product);
         return product
+    }
+
+    //Xem hang gan het.
+    async outOfStock(){
+       const products = await this.productRepository.createQueryBuilder()
+       .select("product").from(ProductEntity,"product").where("product.amount < limit",{limit:30});
+       return products;
     }
 
     //Xem hàng theo ID

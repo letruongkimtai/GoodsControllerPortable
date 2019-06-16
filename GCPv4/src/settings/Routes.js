@@ -9,6 +9,7 @@ import SignUp from '../components/user/SignUp';
 import Order from '../components/order/Order';
 import Other from '../components/other/Other';
 import DeliveryDetail from '../components/delivery/DeliveryDetail'
+import AddProductModal from '../components/product/AddProductModal'
 
 const HomeStack = createStackNavigator({
     Home: {
@@ -18,7 +19,7 @@ const HomeStack = createStackNavigator({
     { initialRouteName: 'Home' }
 )
 
-const AppStack = createBottomTabNavigator({
+const MainStack = createBottomTabNavigator({
     Home: {
         screen: HomeStack,
         navigationOptions: {
@@ -51,6 +52,21 @@ const AppStack = createBottomTabNavigator({
                 fontSize: 18,
             }
         }
+    }
+)
+
+const AppStack = createStackNavigator(
+    {
+        Main: {
+            screen: MainStack,
+        },
+        ProductModal: {
+            screen: AddProductModal,
+        }
+    },
+    {
+        mode:'modal',
+        headerMode:'none'
     }
 )
 
