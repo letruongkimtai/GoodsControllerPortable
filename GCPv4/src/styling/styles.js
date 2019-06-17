@@ -47,6 +47,7 @@ export const styles = StyleSheet.create({
         width:"85%",
         marginLeft:30,
     },
+
     headerTitle:{
         fontSize:25,
         fontFamily:'Open Sans',
@@ -62,6 +63,9 @@ export const styles = StyleSheet.create({
     },
     amount:{
         width:"30%",
+    },
+    formLoading:{
+
     },
 
     button:{

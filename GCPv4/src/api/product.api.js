@@ -22,14 +22,14 @@ export function getType() {
         return err;
     });
 }
-export function addProduct(name, area, amount, brand, type) {
-    return Axios.post("http://10.0.3.2:3000/product-type",
+export function addProduct(name, area, amount,type,brand, ) {
+    return Axios.post("http://10.0.3.2:3000/product",
         {
             "product_name":name,
             "area":area,
             "amount":amount,
-            "prBrandBrandId":brand,
             "prTypeTypeId":type,
+            "prBrandBrandId":brand,
         }
     ).then(res => {
         console.log('==================result==================');

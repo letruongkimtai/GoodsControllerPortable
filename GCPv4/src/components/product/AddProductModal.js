@@ -21,7 +21,7 @@ export default class AddProduct extends Component {
                         Thêm sản phẩm mới
                     </Text>
                 </View>
-                <AddProductForm/>
+                <AddProductForm nav={this.props.navigation}/>
             </View>
         );
     }

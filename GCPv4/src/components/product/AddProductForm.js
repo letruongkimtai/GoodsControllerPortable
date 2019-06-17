@@ -5,10 +5,11 @@ import {
     TouchableOpacity,
     TextInput,
     Picker,
+    ToastAndroid,
+    Alert,
 } from 'react-native';
 import { styles } from '../../styling/styles';
 import { textColor, BackgroundColor } from '../../styling/colors';
-import { Dropdown } from 'react-native-material-dropdown';
 import * as Action from '../../api/product.api'
 
 export default class AddProductForm extends Component {
@@ -17,35 +18,77 @@ export default class AddProductForm extends Component {
         super(props),
             this.state = {
                 loading: true,
-                brandData:[],
-                typeData:[],
-                prName:'',
-                area:'',
-                amount:0,
-                brand:0,
-                type:0,
+
+                //loading lists
+                brandData: [],
+                typeData: [],
+
+                //add info
+                prName: '',
+                area: '',
+                amount: 0,
+                brand_id: null,
+                type_id: null,
+
+                brand_label: 'Nhãn hàng',
+                type_label: 'Loại hàng',
             }
     }
-    //=======================================function=========================================//
+
     async getBrands() {
         const brand = await Action.getBrand();
         return brand;
-    }
+    };
 
     async getType() {
         const type = await Action.getType();
         return type;
-    }
+    };
 
-    addProduct(){
-        const {prName,area,amount,brand,type} = this.state;
-        return Action.addProduct(prName,area,amount,brand,type).then(res=>{
-            console.log('=================result in render===================');
-            console.log(res);
-            console.log('====================================================');
+    brandPickerChange(index) {
+        this.state.brandData.map((v, i) => {
+            if (index === i) {
+                this.setState({
+                    brand_label: this.state.brandData[index].brand_name,
+                    brand_id: this.state.brandData[index].brand_id
+                })
+            }
         })
+    };
+
+    typePickerChange(index) {
+        this.state.typeData.map((v, i) => {
+            if (index === i) {
+                this.setState({
+                    type_label: this.state.typeData[index].type_name,
+                    type_id: this.state.typeData[index].type_id
+                })
+            }
+        })
+    };
+
+    handleAddPress() {
+        const { prName, area, amount, type_id, brand_id } = this.state;
+        try {
+            if (prName != null && area != null && amount != null && type_id != null && brand_id != null) {
+                return Action.addProduct(prName, area, amount, type_id, brand_id).then(res => {
+                    console.log('=================result in render===================');
+                    console.log(res);
+                    console.log('====================================================');
+                    ToastAndroid.show('Thêm sản phẩm thành công', 2);
+                    this.props.nav.goBack();
+                })
+            } else {
+                Alert.alert('Cảnh báo', 'Thông tin không được đẻ trống')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    };
+
+    handleBackPress() {
+        this.props.nav.goBack();
     }
-    //============================================================================//
 
     async componentDidMount() {
         let brandData = await this.getBrands();
@@ -61,10 +104,15 @@ export default class AddProductForm extends Component {
             typeData: typeData,
             loading: false
         })
-        //this.setState({  })
-    }
+    };
+
     render() {
-        console.log(this.state.brand);
+        console.log(this.state.brand_label);
+        console.log(this.state.brand_id);
+
+        console.log(this.state.type_label);
+        console.log(this.state.type_id);
+
         if (this.state.loading) {
             return (
                 <View>
@@ -80,52 +128,61 @@ export default class AddProductForm extends Component {
                         <TextInput style={styles.infoInput}
                             placeholder='Tên sản phẩm'
                             placeholderTextColor='black'
-                            onChangeText={(name)=>{this.setState({prName:(name)})}} />
+                            onChangeText={(name) => { this.setState({ prName: (name) }) }} />
 
                         <TextInput style={styles.infoInput}
                             placeholder='Kho chứa'
                             placeholderTextColor='black'
-                            onChangeText={(area)=>{this.setState({area:(area)})}} />
+                            onChangeText={(area) => { this.setState({ area: (area) }) }} />
 
                         <TextInput style={[styles.infoInput, styles.amount]}
                             placeholder='Số lượng'
                             placeholderTextColor='black'
                             keyboardType={'numeric'}
-                            onChangeText={(amount)=>{this.setState({amount:(amount)})}} />
+                            onChangeText={(amount) => { this.setState({ amount: (amount) }) }} />
 
-                        <Picker style={{marginTop:10}}
-                            onValueChange={(itemValue,itemPosition)=>{this.setState({brand:itemPosition.brand_name})}}>
+                        <Picker
+                            style={{ marginTop: 10 }}
+                            onValueChange={(itemValue, itemIndex) => this.brandPickerChange(itemIndex)}
+                            selectedValue={this.state.brand_label}>
                             {this.state.brandData.map(
                                 (item) => {
                                     return (
-                                        <Picker.Item key={item.brand_id} label={item.brand_name} value={item.brand_id} />
+                                        <Picker.Item key={item.brand_id} label={item.brand_name} value={item.brand_name} />
                                     )
                                 }
                             )}
                         </Picker>
-                        <Picker style={{marginTop:10}}
-                            onValueChange={(value)=>{this.setState({type:value})}}>
+
+                        <Picker
+                            style={{ marginTop: 10 }}
+                            onValueChange={(itemValue, itemIndex) => this.typePickerChange(itemIndex)}
+                            selectedValue={this.state.type_label}>
                             {this.state.typeData.map(
                                 (item) => {
                                     return (
-                                        <Picker.Item key={item.type_id} label={item.type_name} value={item.type_id} />
+                                        <Picker.Item key={item.type_id} label={item.type_name} value={item.type_name} />
                                     )
                                 }
                             )}
                         </Picker>
                     </View>
+
                     <View style={styles.modalButton}>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={[styles.button, BackgroundColor.success]}
-                            onPress={()=>this.addProduct()}>
+                            onPress={() => this.handleAddPress()}>
                             <Text style={[styles.buttonTitle, textColor.white]}>
                                 Thêm sản phẩm
-                    </Text>
+                            </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, BackgroundColor.danger]}>
+
+                        <TouchableOpacity 
+                            style={[styles.button, BackgroundColor.danger]}
+                            onPress={()=>this.handleBackPress()}>
                             <Text style={[styles.buttonTitle, textColor.white]}>
                                 Quay lại
-                    </Text>
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
