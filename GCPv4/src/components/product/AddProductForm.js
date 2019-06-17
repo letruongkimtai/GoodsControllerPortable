@@ -72,14 +72,12 @@ export default class AddProductForm extends Component {
         try {
             if (prName != null && area != null && amount != null && type_id != null && brand_id != null) {
                 return Action.addProduct(prName, area, amount, type_id, brand_id).then(res => {
-                    console.log('=================result in render===================');
                     console.log(res);
-                    console.log('====================================================');
                     ToastAndroid.show('Thêm sản phẩm thành công', 2);
                     this.props.nav.goBack();
                 })
             } else {
-                Alert.alert('Cảnh báo', 'Thông tin không được đẻ trống')
+                Alert.alert('Cảnh báo', 'Thông tin không được để trống')
             }
         } catch (err) {
             console.log(err)
@@ -107,12 +105,6 @@ export default class AddProductForm extends Component {
     };
 
     render() {
-        console.log(this.state.brand_label);
-        console.log(this.state.brand_id);
-
-        console.log(this.state.type_label);
-        console.log(this.state.type_id);
-
         if (this.state.loading) {
             return (
                 <View>

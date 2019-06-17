@@ -1,31 +1,24 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     ImageBackground,
     StyleSheet,
+    View,
 } from 'react-native';
-import {
-    Button,
-    Text,
-} from 'native-base';
-import ActionButton from 'react-native-action-button';
-
+import { styles } from '../../styling/styles';
+import ProductCard from './ProductCard'
 export default class ProductList extends Component {
     render() {
         return (
-            <ImageBackground style={styles.container} source={require('../../assets/images/background.png')}>
-                <Button success>
-                    <Text>Chi tiết sản phẩm</Text>
-                </Button>
-                <ActionButton buttonColor='#21C184' onPress={()=>this.props.navigation.navigate('ProductModal')}></ActionButton>
+            <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
+                <View style={list.filter}></View>
+                <ProductCard nav={this.props.navigation}/>
             </ImageBackground>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container:{
+const list = StyleSheet.create({
+    filter: {
         flex: 1,
-        width: '100%',
-        height: '100%',
-    }
-});
+    },
+})

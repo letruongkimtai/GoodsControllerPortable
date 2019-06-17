@@ -17,4 +17,13 @@ export const textColor = StyleSheet.create({
     white:{
         color:'#FFFFFF',
     },
+    danger:{
+        color:'#ff1414',
+    },
+    warning:{
+        color:'#e5bd0d'
+    },
+    success:{
+        color:'#26c107'
+    }
 })
