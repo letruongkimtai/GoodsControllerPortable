@@ -22,6 +22,7 @@ export default class AddProductForm extends Component {
                 //loading lists
                 brandData: [],
                 typeData: [],
+                
 
                 //add info
                 prName: '',
@@ -73,8 +74,10 @@ export default class AddProductForm extends Component {
             if (prName != null && area != null && amount != null && type_id != null && brand_id != null) {
                 return Action.addProduct(prName, area, amount, type_id, brand_id).then(res => {
                     console.log(res);
-                    ToastAndroid.show('Thêm sản phẩm thành công', 2);
-                    this.props.nav.goBack();
+                    ToastAndroid.show('Thêm sản phẩm thành công', 2),
+                    this.props.nav.navigate('Product')
+                }).catch(err=>{
+                    console.log(err);
                 })
             } else {
                 Alert.alert('Cảnh báo', 'Thông tin không được để trống')
@@ -85,7 +88,7 @@ export default class AddProductForm extends Component {
     };
 
     handleBackPress() {
-        this.props.nav.goBack();
+        this.props.nav.navigate('Product');
     }
 
     async componentDidMount() {
@@ -96,6 +99,7 @@ export default class AddProductForm extends Component {
         let typeData = await this.getType();
         console.log('================result in render====================');
         console.log(typeData);
+
 
         await this.setState({
             brandData: brandData,

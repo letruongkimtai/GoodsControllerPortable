@@ -21,6 +21,11 @@ export class ProductController {
         return this.productService.outOfStock()
     }
 
+    @Get('/Search')
+    SearchProduct(){
+        return this.productService.search()
+    }
+
     @Get(':id') //xác định có param thì ở dưới cũng truyền @Param
     showProduct(@Param('id') id:string){ //add @Param decorator
         return this.productService.productWithID(id);

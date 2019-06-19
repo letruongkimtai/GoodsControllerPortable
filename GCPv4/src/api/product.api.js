@@ -36,9 +36,9 @@ export function addProduct(name, area, amount, type, brand, ) {
         }
     ).then(res => {
         console.log('==================Api result=======================');
-        console.log(res);
+        console.log(res.data);
         console.log('==================Render result====================');
-        return res;
+        return res.data;
     }).catch(err => {
         console.log(err);
         return err;
@@ -53,6 +53,33 @@ export function showProducts() {
         console.log(res.data);
         console.log('==================Render result====================');
         return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+
+//=============================Show Product by Id================================//
+export function productById(id){
+    return Axios.get("http://10.0.3.2:3000/product/"+id).then(res=>{
+        console.log('================Api result====================');
+        console.log(res.data);
+        console.log('================Render result====================');
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+
+//=============================Take Product with amount================================//
+
+export function takeProduct(id,taken){
+    return Axios.put("http://10.0.3.2:3000/product/"+id,{
+        "amount":taken,
+    }).then(res=>{
+        console.log('===============Api result=====================');
+        console.log(res.data);
+        console.log('===============Render result=====================');
+        return res.data
     }).catch(err=>{
         console.log(err);
     })

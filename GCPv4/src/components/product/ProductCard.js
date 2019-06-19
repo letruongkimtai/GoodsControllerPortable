@@ -7,11 +7,10 @@ import {
     Image,
     Text,
     FlatList,
-} from 'react-native';
-import ActionButton from 'react-native-action-button';
-import * as Action from '../../api/product.api'
-import { styles } from '../../styling/styles';
-import { textColor } from '../../styling/colors';
+    } from 'react-native';
+    import ActionButton from 'react-native-action-button';
+    import * as Action from '../../api/product.api'
+    import { textColor } from '../../styling/colors';
 
 export default class ProductCard extends Component {
     constructor(props) {
@@ -90,7 +89,7 @@ export default class ProductCard extends Component {
 
                                         <View style={list.productCardBody}>
                                             <Text style={list.productAmount}>Số lượng: {item.amount}</Text>
-                                            <Text style={[list.productStatus]}>Trạng thái: Còn hàng</Text>
+                                            <Text style={[list.productStatus,textColor.black]}>{item.area}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
@@ -131,7 +130,7 @@ const list = StyleSheet.create({
     productImage: {
         flex: 1,
         alignSelf: 'center',
-        alignItems:'center'
+        alignItems:'center',
     },
     productInfo: {
         flex: 2,
@@ -156,5 +155,5 @@ const list = StyleSheet.create({
     productStatus: {
         fontSize: 18,
         marginTop: 5,
-    }
+    },
 })

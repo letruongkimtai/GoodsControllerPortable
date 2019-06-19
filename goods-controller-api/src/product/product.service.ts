@@ -32,6 +32,10 @@ export class ProductService {
        return products;
     }
 
+    async search(){
+        return this.productRepository.find({})
+    }
+
     //Xem hàng theo ID
     async productWithID(product_id: string){
         return await this.productRepository.findOne({where: {product_id}})
