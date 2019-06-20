@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ProductDTO } from './product.dto';
+import { ProductDTO, } from './product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -21,10 +21,10 @@ export class ProductController {
         return this.productService.outOfStock()
     }
 
-    @Get('/Search')
-    SearchProduct(){
-        return this.productService.search()
-    }
+    // @Post('/Search')
+    // SearchProduct(@Body() name:string){
+    //     return this.productService.search(name);
+    // }
 
     @Get(':id') //xác định có param thì ở dưới cũng truyền @Param
     showProduct(@Param('id') id:string){ //add @Param decorator

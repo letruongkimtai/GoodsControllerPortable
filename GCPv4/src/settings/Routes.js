@@ -6,7 +6,7 @@ import ProductList from '../components/product/ProductList';
 import ProductDetails from '../components/product/ProductDetails';
 import Login from '../components/user/Login'
 import SignUp from '../components/user/SignUp';
-import Order from '../components/order/Order';
+import OrderList from '../components/order/OrderList';
 import Other from '../components/other/Other';
 import DeliveryDetail from '../components/delivery/DeliveryDetail'
 import AddProductModal from '../components/product/AddProductModal'
@@ -32,8 +32,8 @@ const MainStack = createBottomTabNavigator({
             tabBarLabel: 'Sản phẩm'
         },
     },
-    Order: {
-        screen: Order,
+    OrderList: {
+        screen: OrderList,
         navigationOptions: {
             tabBarLabel: 'Đặt hàng'
         },

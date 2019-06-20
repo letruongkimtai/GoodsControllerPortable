@@ -1,0 +1,176 @@
+import React, { Component } from 'react';
+import {
+    View,
+    Text,
+    ImageBackground,
+    StyleSheet,
+    ScrollView,
+    Image,
+    FlatList
+} from 'react-native';
+import { styles } from '../../styling/styles';
+import { textColor } from '../../styling/colors';
+import { Button } from 'native-base';
+import * as Action from '../../api/order.api'
+
+
+export default class OrderList extends Component {
+
+    constructor(props) {
+        super(props),
+            this.state = {
+                order: [],
+            }
+    }
+
+    async getOrdersList() {
+        return await Action.showOrders().then(res => {
+            console.log('====================================');
+            console.log(res);
+            console.log('====================================');
+            this.setState({
+                order: res,
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    async componentDidMount() {
+        this.getOrdersList();
+        console.log(this.state.order)
+    }
+
+    getStatus(status){
+        if(status){
+            const Ok = 'Đã xác nhận';
+            return Ok;
+        }
+        else{
+            const Nope = 'Chưa xác nhận'
+            return Nope;
+        }
+    }
+
+    handleDetailPress(){
+        this.props.navigation.navigate('OrderDetail',{id:this.state.order.id})
+    }
+
+    render() {
+        return (
+            <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
+                <View style={orderList.header}>
+                    <View style={orderList.headerTitle}>
+                        <Text style={orderList.title}>Lịch sử đơn hàng</Text>
+                    </View>
+                    <View style={orderList.addButton}>
+                        <Text style={[orderList.title, textColor.headerButton]}>Add</Text>
+                    </View>
+                </View>
+                <View style={orderList.body}>
+                    <ScrollView>
+                        <FlatList
+                            data={this.state.order}
+                            keyExtractor={(item, index) => index.toString()}
+                            extraData={this.state.order}
+                            renderItem={({ item }) =>
+                                <View style={orderList.itemCard}>
+                                    <View style={orderList.orderInfo}>
+                                        <View style={orderList.orderID}>
+                                            <Text style={[orderList.id, orderList.seperateLine]}>{item.id}</Text>
+                                        </View>
+                                        <View style={[orderList.orderStatus]}>
+                                            <Text style={orderList.status}>{item.created}</Text>
+                                            <Text style={orderList.status}>{this.getStatus(item.status).toString()}</Text>
+                                        </View>
+                                    </View>
+                                    <View style={orderList.navButton}>
+                                        <Button transparent style={{ marginLeft: 40 }}>
+                                            <Image source={require('../../assets/images/navigateButton.png')} />
+                                        </Button>
+                                    </View>
+                                </View>
+                            }
+
+                        />
+                    </ScrollView>
+                </View>
+            </ImageBackground>
+        );
+    }
+}
+
+const orderList = StyleSheet.create({
+    header: {
+        flex: 1,
+        backgroundColor: 'white',
+        shadowColor: '#000000', //Set color
+        shadowOffset: {
+            width: 0,     //Set width and height for shadow
+            height: 5
+        },
+        shadowRadius: 5,   //Set radius
+        shadowOpacity: 1.0, //Set Opacity
+        elevation: 3, // Set elevation - A must have for android 5+
+        flexDirection: 'row',
+        height: "80%"
+    },
+    body: {
+        flex: 9,
+    },
+    headerTitle: {
+        flex: 3,
+    },
+    addButton: {
+        flex: 1,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: '400',
+        marginLeft: 42,
+        marginTop: 15,
+        color: 'black'
+    },
+    itemCard: {
+        height: 100,
+        width: "90%",
+        marginLeft: 15,
+        backgroundColor: 'white',
+        marginTop: 10,
+        flex: 1,
+        flexDirection: 'row',
+    },
+    orderInfo: {
+        flex: 3,
+    },
+    navButton: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    orderID: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    orderStatus: {
+        flex: 1,
+    },
+    id: {
+        fontSize: 15,
+        color: 'black',
+        marginTop: 10,
+        marginLeft:20
+    },
+    status: {
+        fontSize: 18,
+        color: 'black',
+        marginLeft: 15,
+    },
+    seperateLine: {
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'gray',
+    }
+
+
+})
+

@@ -25,5 +25,8 @@ export const textColor = StyleSheet.create({
     },
     success:{
         color:'#26c107'
+    },
+    headerButton:{
+        color:'#1c5bed'
     }
 })

@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { Repository, createQueryBuilder } from 'typeorm';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Repository, createQueryBuilder,getRepository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ProductEntity } from './product.entity';
-import { ProductDTO } from './product.dto';
+import { ProductDTO, } from './product.dto';
 
 @Injectable()
 export class ProductService {
@@ -27,14 +27,20 @@ export class ProductService {
 
     //Xem hang gan het.
     async outOfStock(){
-       const products = await this.productRepository.createQueryBuilder()
-       .select("product").from(ProductEntity,"product").where("product.amount < limit",{limit:30});
+       const products = await getRepository(ProductEntity).createQueryBuilder("product").where("product.amount < 20").getMany();
        return products;
     }
 
-    async search(){
-        return this.productRepository.find({})
-    }
+    //Search
+    // async search(product_name:string){
+    //     const product = await getRepository(ProductEntity).createQueryBuilder("product").where("product.product_name =: name",{name:product_name}).getOne();
+    //     if(product != null){
+    //         return product
+    //     }
+    //     else{
+    //         throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    //     }
+    // }
 
     //Xem hàng theo ID
     async productWithID(product_id: string){
