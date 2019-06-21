@@ -10,6 +10,9 @@ import OrderList from '../components/order/OrderList';
 import Other from '../components/other/Other';
 import DeliveryDetail from '../components/delivery/DeliveryDetail'
 import AddProductModal from '../components/product/AddProductModal'
+import OrderDetail from '../components/order/OrderDetail'
+import AddOrder from '../components/order/AddOrder';
+import ConfigNConfirm from '../components/order/ConfigNConfirm';
 
 const HomeStack = createStackNavigator({
     Home: {
@@ -49,9 +52,10 @@ const MainStack = createBottomTabNavigator({
     {
         tabBarOptions: {
             tabStyle: {
-                fontSize: 18,
+                fontSize: 30,
             }
-        }
+        },
+        swipeEnabled:true,
     }
 )
 
@@ -93,6 +97,24 @@ const rootStack = createStackNavigator({
         screen: DeliveryDetail,
         navigationOptions: {
             header: null,
+        }
+    },
+    OrderDetail: {
+        screen: OrderDetail,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    AddOrder:{
+        screen: AddOrder,
+        navigationOptions:{
+            header: null,
+        }
+    },
+    Confirm:{
+        screen: ConfigNConfirm,
+        navigationOptions:{
+            header:null,
         }
     }
 })

@@ -84,3 +84,15 @@ export function takeProduct(id,taken){
         console.log(err);
     })
 }
+
+//=============================Out of stock================================//
+export function outOfStockItems(){
+    return Axios.get("http://10.0.3.2:3000/product/OutOfStock").then(res=>{
+        console.log('====================================');
+        console.log(res.data);
+        console.log('====================================');
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+}

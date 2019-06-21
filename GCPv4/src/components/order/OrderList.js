@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { styles } from '../../styling/styles';
 import { textColor } from '../../styling/colors';
-import { Button } from 'native-base';
+import { Button,Icon } from 'native-base';
 import * as Action from '../../api/order.api'
 
 
@@ -52,8 +52,12 @@ export default class OrderList extends Component {
         }
     }
 
-    handleDetailPress(){
-        this.props.navigation.navigate('OrderDetail',{id:this.state.order.id})
+    handleAddPress(){
+        this.props.navigation.navigate('AddOrder');
+    }
+
+    handleDetailPress(id){
+        this.props.navigation.navigate('OrderDetail',{id:id})
     }
 
     render() {
@@ -64,7 +68,9 @@ export default class OrderList extends Component {
                         <Text style={orderList.title}>Lịch sử đơn hàng</Text>
                     </View>
                     <View style={orderList.addButton}>
-                        <Text style={[orderList.title, textColor.headerButton]}>Add</Text>
+                        <Text 
+                            style={[orderList.title, textColor.headerButton]}
+                            onPress={()=>this.handleAddPress()}>Thêm</Text>
                     </View>
                 </View>
                 <View style={orderList.body}>
@@ -76,17 +82,16 @@ export default class OrderList extends Component {
                             renderItem={({ item }) =>
                                 <View style={orderList.itemCard}>
                                     <View style={orderList.orderInfo}>
-                                        <View style={orderList.orderID}>
-                                            <Text style={[orderList.id, orderList.seperateLine]}>{item.id}</Text>
-                                        </View>
                                         <View style={[orderList.orderStatus]}>
                                             <Text style={orderList.status}>{item.created}</Text>
                                             <Text style={orderList.status}>{this.getStatus(item.status).toString()}</Text>
                                         </View>
                                     </View>
                                     <View style={orderList.navButton}>
-                                        <Button transparent style={{ marginLeft: 40 }}>
-                                            <Image source={require('../../assets/images/navigateButton.png')} />
+                                        <Button transparent 
+                                            style={{ marginLeft: 20 }}
+                                            onPress={()=>this.handleDetailPress(item.id)}>
+                                            <Icon style={{color:'black'}} type="FontAwesome5" name="chevron-right"/>
                                         </Button>
                                     </View>
                                 </View>
@@ -122,7 +127,7 @@ const orderList = StyleSheet.create({
         flex: 3,
     },
     addButton: {
-        flex: 1,
+        flex: 2,
     },
     title: {
         fontSize: 20,
@@ -132,7 +137,7 @@ const orderList = StyleSheet.create({
         color: 'black'
     },
     itemCard: {
-        height: 100,
+        height: 80,
         width: "90%",
         marginLeft: 15,
         backgroundColor: 'white',
@@ -162,9 +167,10 @@ const orderList = StyleSheet.create({
         marginLeft:20
     },
     status: {
-        fontSize: 18,
+        fontSize: 17,
         color: 'black',
         marginLeft: 15,
+        marginTop:15
     },
     seperateLine: {
         borderBottomWidth: 0.5,
