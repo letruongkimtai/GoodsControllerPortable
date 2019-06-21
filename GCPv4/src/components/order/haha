@@ -1,0 +1,11 @@
+<View style={confirm.amountCounter}>
+                <Button transparent style={confirm.quantitytButton} onPress={() => this.addPressCounter()}>
+                    <Icon style={{ marginRight: 15, color: 'black' }} type='FontAwesome5' name='plus' />
+                </Button>
+
+                <Text style={confirm.productQuantity}>{this.state.taken}</Text>
+
+                <Button transparent style={confirm.quantitytButton} onPress={() => this.minusPressCounter()}>
+                    <Icon style={{ marginLeft: 15, color: 'black' }} type='FontAwesome5' name='minus' />
+                </Button>
+            </View>

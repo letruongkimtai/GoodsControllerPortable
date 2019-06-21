@@ -23,8 +23,9 @@ export default class AddOrder extends Component {
             products: [],
             order: [],
             totalProducts: 0,
+            taken:0,
         }
-    }
+    };
 
     async getOutOfStockProducts() {
         return ProductAction.outOfStockItems().then(res => {
@@ -35,47 +36,75 @@ export default class AddOrder extends Component {
         }).catch(err => {
             console.log(err);
         })
-    }
+    };
 
     async componentDidMount() {
         this.getOutOfStockProducts();
-    }
+    };
 
     //Check xem hang co trong danh sach chua
     isItemValid(id) {
         const { order } = this.state;
         let flag = false;
-        for(i=0; i < order.length; i++){
-            if(order[i].product_id == id){
+        for (i = 0; i < order.length; i++) {
+            if (order[i].product_id == id) {
                 flag = true;
             }
         }
         return flag;
-    }
+    };
 
-    handleAddPress(value, id) {
-        const { order } = this.state;
-        if(this.isItemValid(id)){
+    handleAddPress(name, id) {
+        const { order,taken } = this.state;
+        var product = {
+            product_id: id,
+            product_name: name,
+            order_amount: taken,
+        }
+        if (this.isItemValid(id)) {
             console.log('Trung id');
             alert('Mặt hàng đã có trong danh sách..!!')
-        }else{
-            order.push(value);
+        } else {
+            order.push(product);
             console.log(order)
             this.setState({
-                totalProducts:order.length
+                totalProducts: order.length,
+                taken:0,
             })
+        }
+    };
+
+    addPressCounter() {
+        const countPress = this.state.taken + 1;
+        this.setState({ taken: countPress });
+    }
+
+    minusPressCounter() {
+        if (this.state.taken > 0) {
+            const countPress = this.state.taken - 1;
+            this.setState({ taken: countPress });
+        } else {
+            alert('Hàng lấy không được nhỏ hơn 0')
         }
     }
 
     handleConfirmNav() {
-        const {order} = this.state;
-        this.props.navigation.navigate('Confirm',{
+        const { order } = this.state;
+        // if(totalProducts == 0){
+        //     alert('Đơn hàng trống');
+        // }else{
+        //     this.props.navigation.navigate('Confirm',{
+        //         productsList: order,
+        //     });
+        // };
+        this.props.navigation.navigate('Confirm', {
             productsList: order,
-        });
-    }
+        })
+    };
 
     render() {
-        const { products, totalProducts } = this.state
+        const { products, totalProducts,taken } = this.state
+        console.log(taken)
         return (
             <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
                 <View style={order.header}>
@@ -86,7 +115,7 @@ export default class AddOrder extends Component {
                         <FlatList
                             data={products}
                             keyExtractor={(item, index) => index.toString()}
-                            extraData={products}
+                            extraData={this.state}
                             renderItem={({ item }) =>
                                 < View
                                     style={order.itemCard}>
@@ -103,10 +132,16 @@ export default class AddOrder extends Component {
                                             <Text style={order.productAmount}>Tồn kho: {item.amount}</Text>
                                         </View>
 
+                                        <View style={order.amountCounter}>
+                                            <TextInput style={order.productQuantity}
+                                                onChangeText={(amount)=>this.setState({taken:amount})}
+                                                keyboardType={'numeric'}
+                                            />
+                                        </View>
                                     </View>
                                     <View style={[order.addButton, BackgroundColor.success]}>
                                         <Button transparent
-                                            onPress={() => this.handleAddPress(item, item.product_id)}>
+                                            onPress={() => this.handleAddPress(item.product_name, item.product_id)}>
                                             <Icon style={{ marginLeft: 30, color: 'white' }} type="FontAwesome5" name="plus" />
                                         </Button>
                                     </View>
@@ -125,7 +160,7 @@ export default class AddOrder extends Component {
                 </View>
             </ImageBackground>
         );
-    }
+    };
 }
 
 const order = StyleSheet.create({
@@ -168,7 +203,7 @@ const order = StyleSheet.create({
     },
     itemCard: {
         width: "90%",
-        height: 120,
+        height: 200,
         backgroundColor: 'white',
         marginLeft: 17,
         marginBottom: 10,
@@ -216,12 +251,12 @@ const order = StyleSheet.create({
         color: 'black',
         fontSize: 20,
         fontWeight: '400',
-        marginBottom: 10
+        marginBottom: 5
     },
     productAmount: {
         color: 'black',
         fontSize: 18,
-        marginTop: 10
+        marginTop: 5
     },
     productStatus: {
         fontSize: 18,
@@ -232,12 +267,16 @@ const order = StyleSheet.create({
         width: 50,
     },
     productQuantity: {
-        fontSize: 20,
+        fontSize: 15,
         color: 'black',
         fontWeight: '400',
         marginTop: 5,
         marginRight: 15,
         marginLeft: 15,
+        height:50,
+        width:"60%",
+        borderWidth:0.5,
+        backgroundColor:'#DEDEDE'
     },
     totalAmount: {
         flex: 3,
@@ -256,4 +295,4 @@ const order = StyleSheet.create({
         fontSize: 19,
     }
 
-})
+});
