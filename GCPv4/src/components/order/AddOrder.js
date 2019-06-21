@@ -23,7 +23,7 @@ export default class AddOrder extends Component {
             products: [],
             order: [],
             totalProducts: 0,
-            taken:0,
+            taken: 0,
         }
     };
 
@@ -55,22 +55,25 @@ export default class AddOrder extends Component {
     };
 
     handleAddPress(name, id) {
-        const { order,taken } = this.state;
-        var product = {
-            product_id: id,
-            product_name: name,
-            order_amount: taken,
-        }
-        if (this.isItemValid(id)) {
-            console.log('Trung id');
-            alert('Mặt hàng đã có trong danh sách..!!')
+        const { order, taken } = this.state;
+        if (taken > 0) {
+            var product = {
+                product_id: id,
+                product_name: name,
+                order_amount: taken,
+            }
+            if (this.isItemValid(id)) {
+                console.log('Trung id');
+                alert('Mặt hàng đã có trong danh sách..!!')
+            } else {
+                order.push(product);
+                console.log(order)
+                this.setState({
+                    totalProducts: order.length,
+                })
+            }
         } else {
-            order.push(product);
-            console.log(order)
-            this.setState({
-                totalProducts: order.length,
-                taken:0,
-            })
+            alert('Chua nhap so luong..!!')
         }
     };
 
@@ -92,6 +95,8 @@ export default class AddOrder extends Component {
         const { order } = this.state;
         // if(totalProducts == 0){
         //     alert('Đơn hàng trống');
+        // }if(totalProducts < 5){
+        //     alert('Khong duoc dat duoi 5 mon hang..!!')
         // }else{
         //     this.props.navigation.navigate('Confirm',{
         //         productsList: order,
@@ -103,7 +108,7 @@ export default class AddOrder extends Component {
     };
 
     render() {
-        const { products, totalProducts,taken } = this.state
+        const { products, totalProducts, taken } = this.state
         console.log(taken)
         return (
             <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
@@ -134,7 +139,7 @@ export default class AddOrder extends Component {
 
                                         <View style={order.amountCounter}>
                                             <TextInput style={order.productQuantity}
-                                                onChangeText={(amount)=>this.setState({taken:amount})}
+                                                onChangeText={(amount) => this.setState({ taken: amount })}
                                                 keyboardType={'numeric'}
                                             />
                                         </View>
@@ -273,10 +278,10 @@ const order = StyleSheet.create({
         marginTop: 5,
         marginRight: 15,
         marginLeft: 15,
-        height:50,
-        width:"60%",
-        borderWidth:0.5,
-        backgroundColor:'#DEDEDE'
+        height: 50,
+        width: "60%",
+        borderWidth: 0.5,
+        backgroundColor: '#DEDEDE'
     },
     totalAmount: {
         flex: 3,
@@ -294,5 +299,4 @@ const order = StyleSheet.create({
         color: 'black',
         fontSize: 19,
     }
-
 });
