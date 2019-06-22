@@ -9,6 +9,7 @@ import {
     FlatList,
     TouchableOpacity,
     TextInput,
+    Alert
 } from 'react-native';
 import { Icon } from 'native-base'
 import { styles } from '../../styling/styles';
@@ -38,14 +39,20 @@ export default class ConfigNConfirm extends Component {
         console.log(list)
     }
 
+    handleOrderPress(){
+        Alert.alert('Thông báo','Bạn đã kiểm tra đơn hàng kỹ chưa vì đơn hàng này sẽ gửi lên kho tổng',[
+            {text:'Hủy', style:'cancel'},
+            {text:'Gửi', onPress:()=>this.handleOkPress()}
+        ],{cancelable:true})
+    }
 
-    handleOrderPress() {
+    handleOkPress() {
         const{productsList,user} = this.state;
-        OrderAction.createOrder(true,user.user_id).then(res=>{
+        OrderAction.createOrder(false,user.user_id).then(res=>{
             productsList.map((value)=>{
-                OrderAction.pushOrder(res,value.product_id,order_amount).then(res=>{
+                OrderAction.pushOrder(res,value.product_id,value.order_amount).then(res=>{
                     console.log('Successfully pushing product..!!')
-                    console.log(res)
+                    this.props.navigation.navigate('Success',{order_id:value.product_id})
                 }).catch(err=>{
                     console.log(err);
                 })

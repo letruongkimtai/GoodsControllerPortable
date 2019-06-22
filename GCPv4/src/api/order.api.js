@@ -36,7 +36,7 @@ export function pushOrder(orderID,productId,amount){
         "quantity":amount
     }).then(res=>{
         console.log('====================================');
-        console.log(res);
+        console.log(res.data);
         console.log('====================================');
     }).catch(err=>{
         console.log(err);

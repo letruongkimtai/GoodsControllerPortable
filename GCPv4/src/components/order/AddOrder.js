@@ -73,7 +73,7 @@ export default class AddOrder extends Component {
                 })
             }
         } else {
-            alert('Chua nhap so luong..!!')
+            alert('Chưa nhập số lượng..!!')
         }
     };
 
@@ -92,19 +92,18 @@ export default class AddOrder extends Component {
     }
 
     handleConfirmNav() {
-        const { order } = this.state;
-        // if(totalProducts == 0){
-        //     alert('Đơn hàng trống');
-        // }if(totalProducts < 5){
-        //     alert('Khong duoc dat duoi 5 mon hang..!!')
-        // }else{
-        //     this.props.navigation.navigate('Confirm',{
-        //         productsList: order,
-        //     });
-        // };
-        this.props.navigation.navigate('Confirm', {
-            productsList: order,
-        })
+        const { order,totalProducts } = this.state;
+        if(totalProducts == 0){
+            alert('Đơn hàng trống');
+        }
+        else{
+            this.props.navigation.navigate('Confirm',{
+                productsList: order,
+            });
+        };
+        // this.props.navigation.navigate('Confirm', {
+        //     productsList: order,
+        // })
     };
 
     render() {

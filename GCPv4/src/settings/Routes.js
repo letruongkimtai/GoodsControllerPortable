@@ -13,6 +13,7 @@ import AddProductModal from '../components/product/AddProductModal'
 import OrderDetail from '../components/order/OrderDetail'
 import AddOrder from '../components/order/AddOrder';
 import ConfigNConfirm from '../components/order/ConfigNConfirm';
+import Success from '../components/order/Success';
 
 const HomeStack = createStackNavigator({
     Home: {
@@ -113,6 +114,12 @@ const rootStack = createStackNavigator({
     },
     Confirm:{
         screen: ConfigNConfirm,
+        navigationOptions:{
+            header:null,
+        }
+    },
+    Success:{
+        screen: Success,
         navigationOptions:{
             header:null,
         }
