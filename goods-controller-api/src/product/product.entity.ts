@@ -4,6 +4,7 @@ import { BrandEntity } from 'src/brand/brand.entity';
 import { OrderDetailEntity } from 'src/order-detail/order-detail.entity';
 import { BorrowDetailEntity } from 'src/borrow-detail/borrow-detail.entity';
 import { DeliveryDetailEntity } from 'src/delivery-detail/delivery-detail.entity';
+import { StorageEntity } from 'src/storage/storage.entity';
 
 @Entity('product')
 export class ProductEntity{
@@ -26,6 +27,10 @@ export class ProductEntity{
     @ManyToOne(type=>BrandEntity,prBrand=>prBrand.product)
     prBrand: BrandEntity;
     @Column('int') prBrandBrandId: number;
+
+    @ManyToOne(type=>StorageEntity,storage=>storage.product)
+    storage: StorageEntity;
+    @Column('int') storageId: number;
 
     @OneToOne(type=>OrderDetailEntity,detail=>detail.product)
     detail:OrderDetailEntity[];

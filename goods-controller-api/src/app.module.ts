@@ -11,12 +11,13 @@ import { OrderModule } from './order/order.module';
 import { OrderDetailModule } from './order-detail/order-detail.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { DeliveryDetailModule } from './delivery-detail/delivery-detail.module';
+import { StorageModule } from './storage/storage.module';
 
 
 
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule, BranchModule, UserModule, OrderModule, OrderDetailModule, DeliveryModule, DeliveryDetailModule], //define module in the root
+  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule, BranchModule, UserModule, OrderModule, OrderDetailModule, DeliveryModule, DeliveryDetailModule, StorageModule], //define module in the root
   controllers: [AppController],
   providers: [AppService],
 })

@@ -36,7 +36,7 @@ export class ProductService {
     //     const product = await getRepository(ProductEntity).createQueryBuilder("product").where("product.product_name =: name",{name:product_name}).getOne();
     //     if(product != null){
     //         return product
-    //     }
+    //    
     //     else{
     //         throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     //     }

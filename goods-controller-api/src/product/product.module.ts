@@ -9,9 +9,10 @@ import { ProductTypeEntity } from 'src/product-type/product-type.entity';
 import { OrderDetailEntity } from 'src/order-detail/order-detail.entity';
 import { BorrowDetailEntity } from 'src/borrow-detail/borrow-detail.entity';
 import { DeliveryDetailEntity } from 'src/delivery-detail/delivery-detail.entity';
+import { StorageEntity } from 'src/storage/storage.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([ProductEntity,BrandEntity,ProductTypeEntity,OrderDetailEntity,BorrowDetailEntity,DeliveryDetailEntity])],
+  imports:[TypeOrmModule.forFeature([ProductEntity,BrandEntity,ProductTypeEntity,OrderDetailEntity,BorrowDetailEntity,DeliveryDetailEntity,StorageEntity])],
   controllers: [ProductController],
   providers: [ProductService]
 })
