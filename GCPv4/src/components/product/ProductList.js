@@ -84,13 +84,13 @@ export default class ProductList extends Component {
                             <FlatList
                                 data={this.state.product}
                                 keyExtractor={(item,index) => index.toString()}
-                                extraData={this.state.product}
+                                extraData={this.state}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={list.itemCard}
                                         onPress={() => this.handleItemTouch(item.product_id)}>
                                         <View style={list.productImage}>
-                                            <Image source={require('../../assets/images/logo_small.png')} />
+                                            <Image style={{marginTop:15}} source={require('../../assets/images/logo_small.png')} />
                                         </View>
                                         <View style={list.productInfo}>
 
@@ -100,7 +100,7 @@ export default class ProductList extends Component {
 
                                             <View style={list.productCardBody}>
                                                 <Text style={list.productAmount}>Số lượng: {item.amount}</Text>
-                                                <Text style={[list.productStatus, textColor.black]}>{item.area}</Text>
+                                                <Text style={[list.productStatus, textColor.black]}>{item.storage.name}</Text>
                                             </View>
                                         </View>
                                     </TouchableOpacity>
@@ -135,7 +135,7 @@ const list = StyleSheet.create({
     },
     itemCard: {
         width: "90%",
-        height: 100,
+        height: 110,
         backgroundColor: 'white',
         marginLeft: 17,
         marginBottom: 10,
@@ -143,34 +143,63 @@ const list = StyleSheet.create({
         borderRadius: 10,
         flexDirection: 'row',
         flex: 1,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 1,
+            height: 3
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.5,
+        elevation:5,
     },
     productImage: {
         flex: 1,
         alignSelf: 'center',
         alignItems: 'center',
+        backgroundColor:'white',
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 1,
+            height: 3
+        },
+        shadowRadius: 3,
+        shadowOpacity: 0.5,
+        elevation:5,
+        height:"100%",
+        borderBottomLeftRadius: 10,
+        borderTopLeftRadius:10,
     },
     productInfo: {
         flex: 2,
+        marginLeft:10
     },
     productCardHeader: {
         flex: 1,
     },
     productCardBody: {
-        flex: 2,
+        flex: 3,
         alignContent: 'center',
+        marginTop:40,
+        borderTopWidth: 0.5,
+        borderTopColor: 'gray',
+        marginRight: 5,
     },
     product_name: {
         color: 'black',
         fontSize: 20,
-        fontWeight: '400',
-        marginBottom:20
+        fontWeight: '500',
+        marginLeft:15
     },
     productAmount: {
         color: 'black',
         fontSize: 18,
+        marginLeft:15
     },
     productStatus: {
         fontSize: 18,
-        marginTop: 5,
+        marginLeft:15
     },
+    bold:{
+        fontWeight:'400',
+    }
 })

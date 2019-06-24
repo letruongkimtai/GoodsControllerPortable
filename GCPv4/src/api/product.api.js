@@ -25,14 +25,25 @@ export function getType() {
         return err;
     });
 }
-export function addProduct(name, area, amount, type, brand, ) {
+export function getStorage(){
+    return Axios.get("http://10.0.3.2:3000/storage").then(res=>{
+        console.log('===============Api result=====================');
+        console.log(res.data);
+        console.log('===============Render result=====================');
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+        return err;
+    })
+}
+export function addProduct(name,amount, type, brand, area) {
     return Axios.post("http://10.0.3.2:3000/product",
         {
             "product_name": name,
-            "area": area,
             "amount": amount,
             "prTypeTypeId": type,
             "prBrandBrandId": brand,
+            "storageId":area,
         }
     ).then(res => {
         console.log('==================Api result=======================');

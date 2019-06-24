@@ -7,6 +7,7 @@ import {
     Picker,
     ToastAndroid,
     Alert,
+    ScrollView
 } from 'react-native';
 import { styles } from '../../styling/styles';
 import { textColor, BackgroundColor } from '../../styling/colors';
@@ -22,7 +23,7 @@ export default class AddProductForm extends Component {
                 //loading lists
                 brandData: [],
                 typeData: [],
-                
+                storageData: [],
 
                 //add info
                 prName: '',
@@ -30,9 +31,11 @@ export default class AddProductForm extends Component {
                 amount: 0,
                 brand_id: null,
                 type_id: null,
+                storage_id: null,
 
                 brand_label: 'Nhãn hàng',
                 type_label: 'Loại hàng',
+                storage_label: 'Kho chứa',
             }
     }
 
@@ -44,6 +47,11 @@ export default class AddProductForm extends Component {
     async getType() {
         const type = await Action.getType();
         return type;
+    };
+
+    async getStorage() {
+        const storage = await Action.getStorage();
+        return storage;
     };
 
     brandPickerChange(index) {
@@ -68,15 +76,26 @@ export default class AddProductForm extends Component {
         })
     };
 
+    storagePickerChange(index) {
+        this.state.storageData.map((v, i) => {
+            if (index === i) {
+                this.setState({
+                    storage_label: this.state.storageData[index].name,
+                    storage_id: this.state.storageData[index].id
+                })
+            }
+        })
+    };
+
     handleAddPress() {
-        const { prName, area, amount, type_id, brand_id } = this.state;
+        const { prName, amount, type_id, brand_id, storage_id } = this.state;
         try {
-            if (prName != null && area != null && amount != null && type_id != null && brand_id != null) {
-                return Action.addProduct(prName, area, amount, type_id, brand_id).then(res => {
+            if (prName != null && storage_id != null && amount != null && type_id != null && brand_id != null) {
+                return Action.addProduct(prName, amount, type_id, brand_id, storage_id).then(res => {
                     console.log(res);
                     ToastAndroid.show('Thêm sản phẩm thành công', 2),
-                    this.props.nav.navigate('Product')
-                }).catch(err=>{
+                        this.props.nav.navigate('Product')
+                }).catch(err => {
                     console.log(err);
                 })
             } else {
@@ -100,10 +119,14 @@ export default class AddProductForm extends Component {
         console.log('================result in render====================');
         console.log(typeData);
 
+        let storageData = await this.getStorage();
+        console.log(storageData);
+
 
         await this.setState({
             brandData: brandData,
             typeData: typeData,
+            storageData: storageData,
             loading: false
         })
     };
@@ -120,67 +143,77 @@ export default class AddProductForm extends Component {
         } else {
             return (
                 <View style={styles.modalBody}>
-                    <View style={styles.modalForm}>
-                        <TextInput style={styles.infoInput}
-                            placeholder='Tên sản phẩm'
-                            placeholderTextColor='black'
-                            onChangeText={(name) => { this.setState({ prName: (name) }) }} />
+                    <ScrollView>
+                        <View style={styles.modalForm}>
+                            <TextInput style={styles.infoInput}
+                                placeholder='Tên sản phẩm'
+                                placeholderTextColor='black'
+                                onChangeText={(name) => { this.setState({ prName: (name) }) }} />
 
-                        <TextInput style={styles.infoInput}
-                            placeholder='Kho chứa'
-                            placeholderTextColor='black'
-                            onChangeText={(area) => { this.setState({ area: (area) }) }} />
+                            <TextInput style={[styles.infoInput, styles.amount]}
+                                placeholder='Số lượng'
+                                placeholderTextColor='black'
+                                keyboardType={'numeric'}
+                                onChangeText={(amount) => { this.setState({ amount: (amount) }) }} />
 
-                        <TextInput style={[styles.infoInput, styles.amount]}
-                            placeholder='Số lượng'
-                            placeholderTextColor='black'
-                            keyboardType={'numeric'}
-                            onChangeText={(amount) => { this.setState({ amount: (amount) }) }} />
+                            <Picker
+                                style={{ marginTop: 10 }}
+                                onValueChange={(itemValue, itemIndex) => this.storagePickerChange(itemIndex)}
+                                selectedValue={this.state.storage_label}>
+                                {this.state.storageData.map(
+                                    (item) => {
+                                        return (
+                                            <Picker.Item key={item.id} label={item.name} value={item.name} />
+                                        )
+                                    }
+                                )}
+                            </Picker>
 
-                        <Picker
-                            style={{ marginTop: 10 }}
-                            onValueChange={(itemValue, itemIndex) => this.brandPickerChange(itemIndex)}
-                            selectedValue={this.state.brand_label}>
-                            {this.state.brandData.map(
-                                (item) => {
-                                    return (
-                                        <Picker.Item key={item.brand_id} label={item.brand_name} value={item.brand_name} />
-                                    )
-                                }
-                            )}
-                        </Picker>
+                            <Picker
+                                style={{ marginTop: 10 }}
+                                onValueChange={(itemValue, itemIndex) => this.brandPickerChange(itemIndex)}
+                                selectedValue={this.state.brand_label}>
+                                {this.state.brandData.map(
+                                    (item) => {
+                                        return (
+                                            <Picker.Item key={item.brand_id} label={item.brand_name} value={item.brand_name} />
+                                        )
+                                    }
+                                )}
+                            </Picker>
 
-                        <Picker
-                            style={{ marginTop: 10 }}
-                            onValueChange={(itemValue, itemIndex) => this.typePickerChange(itemIndex)}
-                            selectedValue={this.state.type_label}>
-                            {this.state.typeData.map(
-                                (item) => {
-                                    return (
-                                        <Picker.Item key={item.type_id} label={item.type_name} value={item.type_name} />
-                                    )
-                                }
-                            )}
-                        </Picker>
-                    </View>
+                            <Picker
+                                style={{ marginTop: 10 }}
+                                onValueChange={(itemValue, itemIndex) => this.typePickerChange(itemIndex)}
+                                selectedValue={this.state.type_label}>
+                                {this.state.typeData.map(
+                                    (item) => {
+                                        return (
+                                            <Picker.Item key={item.type_id} label={item.type_name} value={item.type_name} />
+                                        )
+                                    }
+                                )}
+                            </Picker>
+                        </View>
 
-                    <View style={styles.modalButton}>
-                        <TouchableOpacity
-                            style={[styles.button, BackgroundColor.success]}
-                            onPress={() => this.handleAddPress()}>
-                            <Text style={[styles.buttonTitle, textColor.white]}>
-                                Thêm sản phẩm
+                        <View style={styles.modalButton}>
+                            <TouchableOpacity
+                                style={[styles.button, BackgroundColor.success]}
+                                onPress={() => this.handleAddPress()}>
+                                <Text style={[styles.buttonTitle, textColor.white]}>
+                                    Thêm sản phẩm
                             </Text>
-                        </TouchableOpacity>
+                            </TouchableOpacity>
 
-                        <TouchableOpacity 
-                            style={[styles.button, BackgroundColor.danger]}
-                            onPress={()=>this.handleBackPress()}>
-                            <Text style={[styles.buttonTitle, textColor.white]}>
-                                Quay lại
+                            <TouchableOpacity
+                                style={[styles.button, BackgroundColor.danger]}
+                                onPress={() => this.handleBackPress()}>
+                                <Text style={[styles.buttonTitle, textColor.white]}>
+                                    Quay lại
                             </Text>
-                        </TouchableOpacity>
-                    </View>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
                 </View>
             );
         }
