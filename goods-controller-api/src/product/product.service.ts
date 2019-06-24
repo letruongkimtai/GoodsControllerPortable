@@ -14,7 +14,7 @@ export class ProductService {
 
     //Xem hết hàng.
     async showAllProduct(){
-        return await this.productRepository.find({relations:['prType','prBrand']});
+        return await this.productRepository.find({relations:['prType','prBrand','storage']});
     }
 
     //Tạo hàng mới.
