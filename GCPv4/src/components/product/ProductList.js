@@ -8,7 +8,7 @@ import {
     Image,
     Text,
     FlatList,
-    RefreshControl ,
+    RefreshControl,
     Picker
 } from 'react-native';
 import { styles } from '../../styling/styles';
@@ -20,33 +20,43 @@ import { Button } from 'native-base';
 export default class ProductList extends Component {
     constructor(props) {
         super(props),
-        this.state = {
-            product: [],
-            loading: true,
-            status: '',
-            refreshing:false,
-        }
+            this.state = {
+                product: [],
+                loading: true,
+                status: '',
+                refreshing: false,
+                update:false,
+            }
     }
-    
-    async productList(){
-        return await Action.showProducts().then(res=>{
+
+    async productList() {
+        return await Action.showProducts().then(res => {
             console.log(res);
             this.setState({
-                product:res
+                product: res,
+                refreshing:false
             })
             return res;
-        }).then(err=>{
+        }).then(err => {
             console.log(err)
         })
     }
 
     async componentDidMount() {
-
-        this.productList();
-
-        this.setState({
-            loading: false,
-        })
+        const update = this.props.navigation.getParam('update')
+        if(update!=null){
+            this.productList();
+        }else{
+            await this.setState({
+                refreshing: true,
+            })
+            this.productList();
+    
+            this.setState({
+                loading: false,
+            })
+        }
+        
     }
 
     handleItemTouch(id) {
@@ -54,74 +64,57 @@ export default class ProductList extends Component {
         console.log(id)
     }
 
-     _onRefresh(){
-         console.log('pulled');
-         this.setState({refreshing: true});
-         this.productList.then(() => {
-          this.setState({refreshing: false});
-        });
-      }
-
     render() {
-        if (this.state.loading == true) {
-            return (
-                <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
-                    <View style={list.loading}>
-                        <Text style={{ fontSize: 25, color: 'white' }}>Just a sec</Text>
-                    </View>
-                </ImageBackground>
-            )
-        } else {
-            return (
-                <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
-                    <View style={list.filter}>
-                        <Button onPress={()=>this.productList()}>
-                            <Text>refresh</Text>
-                        </Button>
-                    </View>
-                    <View style={list.list}>
-                        <ScrollView>
-                            <FlatList
-                                data={this.state.product}
-                                keyExtractor={(item,index) => index.toString()}
-                                extraData={this.state}
-                                renderItem={({ item }) =>
-                                    <TouchableOpacity
-                                        style={list.itemCard}
-                                        onPress={() => this.handleItemTouch(item.product_id)}>
-                                        <View style={list.productImage}>
-                                            <Image style={{marginTop:15}} source={require('../../assets/images/logo_small.png')} />
+        const{refreshing} = this.state
+        return (
+            <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
+                <View style={list.filter}>
+                    <Button onPress={() => this.productList()}>
+                        <Text>refresh</Text>
+                    </Button>
+                </View>
+                <View style={list.list}>
+                    <ScrollView>
+                        <FlatList
+                            data={this.state.product}
+                            keyExtractor={(item, index) => index.toString()}
+                            refreshing={refreshing}
+                            onRefresh={()=>{this._refresh()}}
+                            extraData={this.state}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={list.itemCard}
+                                    onPress={() => this.handleItemTouch(item.product_id)}>
+                                    <View style={list.productImage}>
+                                        <Image style={{ marginTop: 15 }} source={require('../../assets/images/logo_small.png')} />
+                                    </View>
+                                    <View style={list.productInfo}>
+
+                                        <View style={list.productCardHeader}>
+                                            <Text style={list.product_name}>{item.product_name}</Text>
                                         </View>
-                                        <View style={list.productInfo}>
 
-                                            <View style={list.productCardHeader}>
-                                                <Text style={list.product_name}>{item.product_name}</Text>
-                                            </View>
-
-                                            <View style={list.productCardBody}>
-                                                <Text style={list.productAmount}>Số lượng: {item.amount}</Text>
-                                                <Text style={[list.productStatus, textColor.black]}>{item.storage.name}</Text>
-                                            </View>
+                                        <View style={list.productCardBody}>
+                                            <Text style={list.productAmount}>Số lượng: {item.amount}</Text>
+                                            <Text style={[list.productStatus, textColor.black]}>{item.storage.name}</Text>
                                         </View>
-                                    </TouchableOpacity>
-                                }
-                               
-                            />
-
-                        </ScrollView>
-                        <ActionButton buttonColor='#21C184' onPress={() => this.props.navigation.navigate('ProductModal')}></ActionButton>
-                    </View>
-                </ImageBackground>
-            );
-        }
+                                    </View>
+                                </TouchableOpacity>
+                            }
+                        />
+                    </ScrollView>
+                    <ActionButton buttonColor='#21C184' onPress={() => this.props.navigation.navigate('ProductModal')}></ActionButton>
+                </View>
+            </ImageBackground>
+        );
     }
 }
 
 const list = StyleSheet.create({
     filter: {
         flex: 1,
-        alignSelf:'center',
-        alignItems:'center',
+        alignSelf: 'center',
+        alignItems: 'center',
     },
     list: {
         flex: 4,
@@ -150,13 +143,13 @@ const list = StyleSheet.create({
         },
         shadowRadius: 3,
         shadowOpacity: 0.5,
-        elevation:5,
+        elevation: 5,
     },
     productImage: {
         flex: 1,
         alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor:'white',
+        backgroundColor: 'white',
         shadowColor: '#000000',
         shadowOffset: {
             width: 1,
@@ -164,14 +157,14 @@ const list = StyleSheet.create({
         },
         shadowRadius: 3,
         shadowOpacity: 0.5,
-        elevation:5,
-        height:"100%",
+        elevation: 5,
+        height: "100%",
         borderBottomLeftRadius: 10,
-        borderTopLeftRadius:10,
+        borderTopLeftRadius: 10,
     },
     productInfo: {
         flex: 2,
-        marginLeft:10
+        marginLeft: 10
     },
     productCardHeader: {
         flex: 1,
@@ -179,7 +172,7 @@ const list = StyleSheet.create({
     productCardBody: {
         flex: 3,
         alignContent: 'center',
-        marginTop:40,
+        marginTop: 40,
         borderTopWidth: 0.5,
         borderTopColor: 'gray',
         marginRight: 5,
@@ -188,18 +181,18 @@ const list = StyleSheet.create({
         color: 'black',
         fontSize: 20,
         fontWeight: '500',
-        marginLeft:15
+        marginLeft: 15
     },
     productAmount: {
         color: 'black',
         fontSize: 18,
-        marginLeft:15
+        marginLeft: 15
     },
     productStatus: {
         fontSize: 18,
-        marginLeft:15
+        marginLeft: 15
     },
-    bold:{
-        fontWeight:'400',
+    bold: {
+        fontWeight: '400',
     }
 })

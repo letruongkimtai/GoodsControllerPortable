@@ -94,7 +94,7 @@ export default class AddProductForm extends Component {
                 return Action.addProduct(prName, amount, type_id, brand_id, storage_id).then(res => {
                     console.log(res);
                     ToastAndroid.show('Thêm sản phẩm thành công', 2),
-                        this.props.nav.navigate('Product')
+                        this.props.nav.navigate('ProductList',{update:"Ok"})
                 }).catch(err => {
                     console.log(err);
                 })

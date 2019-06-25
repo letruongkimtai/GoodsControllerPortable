@@ -20,7 +20,8 @@ export default class ProductDetails extends Component {
             this.state = {
                 data: {},
                 taken: 0,
-                status: ''
+                status: '',
+                storage:{}
             }
     }
 
@@ -30,7 +31,8 @@ export default class ProductDetails extends Component {
         console.log(id)
         return await Action.productById(id).then(res => {
             this.setState({
-                data: res
+                data: res,
+                storage:res.storage
             })
             console.log(res);
         }).catch(err => {
@@ -80,7 +82,7 @@ export default class ProductDetails extends Component {
     }
 
     render() {
-        const { data, taken, status } = this.state;
+        const { data, taken, status,storage } = this.state;
         console.log('đã lấy ' + taken)
         return (
             <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
@@ -92,7 +94,7 @@ export default class ProductDetails extends Component {
                         <View style={detail.productInfo}>
                             <Text style={detail.productName}>{data.product_name}</Text>
                             <Text style={detail.productStatus}>Tồn kho: {data.amount}</Text>
-                            <Text style={detail.productStatus}>Vị trí: {data.storage.name}</Text>
+                            <Text style={detail.productStatus}>Vị trí: {storage.name}</Text>
                             <Text style={detail.productStatus}>Trạng thái: {status}</Text>
                         </View>
                     </View>
