@@ -44,7 +44,7 @@ export class ProductService {
 
     //Xem hàng theo ID
     async productWithID(product_id: string){
-        return await this.productRepository.findOne({where: {product_id}})
+        return await this.productRepository.findOne(product_id,{relations:['prType','prBrand','storage']})
     }
 
     //Update hàng.

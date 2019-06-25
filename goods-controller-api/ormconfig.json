@@ -6,7 +6,7 @@
     "password": "7193627a",
     "database": "goods_controller",
     "logging": true,
-    "synchronize": true,
+    "synchronize": false,
     "entities": [
         "./src/**/*.entity.ts",
         "./dist/**/*.entity.js"
