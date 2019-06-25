@@ -1,5 +1,6 @@
 
 import { createAppContainer, createStackNavigator, createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
+import React from 'react';
 
 import Home from '../components/home/Home';
 import ProductList from '../components/product/ProductList';
@@ -14,48 +15,55 @@ import OrderDetail from '../components/order/OrderDetail'
 import AddOrder from '../components/order/AddOrder';
 import ConfigNConfirm from '../components/order/ConfigNConfirm';
 import Success from '../components/order/Success';
+import TabBar from '../components/tab-bar/TabBar';
+// import { Icon } from 'native-base';
+import TabIcon from '../components/tab-bar/TabIcon'
 
 const HomeStack = createStackNavigator({
     Home: {
         screen: Home,
+        navigationOptions: {
+            header: null
+        }
     }
 },
     { initialRouteName: 'Home' }
-)
+);
 
 const MainStack = createBottomTabNavigator({
     Home: {
         screen: HomeStack,
         navigationOptions: {
-            tabBarLabel: 'Trang chủ'
+            tabBarLabel: 'Trang chủ',
+            tabBarIcon: ({tintColor})=><TabIcon name='home' color={tintColor}/>
         },
     },
     Product: {
         screen: ProductList,
         navigationOptions: {
-            tabBarLabel: 'Sản phẩm'
+            tabBarLabel: 'Sản phẩm',
+            tabBarIcon:({tintColor})=><TabIcon name='product' color={tintColor}/>
         },
     },
     OrderList: {
         screen: OrderList,
         navigationOptions: {
-            tabBarLabel: 'Đặt hàng'
+            tabBarLabel: 'Đặt hàng',
+            tabBarIcon: ({tintColor})=><TabIcon name='order' color={tintColor}/>
         },
     },
     Others: {
         screen: Other,
         navigationOptions: {
-            tabBarLabel: 'Khác'
+            tabBarLabel: 'Khác',
+            tabBarIcon: ({tintColor})=><TabIcon name='other' color={tintColor}/>,
+            
         },
     },
 
 },
     {
-        tabBarOptions: {
-            tabStyle: {
-                fontSize: 30,
-            }
-        },
+        tabBarComponent:TabBar,
         swipeEnabled:true,
     }
 )

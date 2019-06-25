@@ -92,7 +92,7 @@ export default class ProductDetails extends Component {
                         <View style={detail.productInfo}>
                             <Text style={detail.productName}>{data.product_name}</Text>
                             <Text style={detail.productStatus}>Tồn kho: {data.amount}</Text>
-                            <Text style={detail.productStatus}>Vị trí: {data.area}</Text>
+                            <Text style={detail.productStatus}>Vị trí: {data.storage.name}</Text>
                             <Text style={detail.productStatus}>Trạng thái: {status}</Text>
                         </View>
                     </View>
@@ -130,14 +130,6 @@ export default class ProductDetails extends Component {
                 <View style={detail.nearby}>
                     <Text style={detail.nearbyTitle}></Text>
                 </View>
-
-                {/* <Text>{data.product_id}</Text>
-                <Text>{data.product_name}</Text>
-                <Text>{data.amount}</Text>
-                <Text>{taken}</Text>
-                <Button title='Lấy hàng' onPress={()=>this.addPressCounter()}/>
-                <Button title='Trả hàng' onPress={()=>this.minusPressCounter()}/>
-                <Button title='Xác nhận' onPress={()=>this.handleTakePress(data.product_id,taken)}/> */}
             </ImageBackground>
         );
     }
