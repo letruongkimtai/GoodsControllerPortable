@@ -10,12 +10,29 @@ import {
 import { 
     Button,
  } from 'native-base';
+ import * as Action from '../../api/delivery.api.js';
 
 export default class OrderDetail extends Component {
-    static navigationOptions = {
-        header:null,
+    constructor(props){
+        super(props)
+        this.state={
+            data:[],
+        }
     }
+
+    async getDetail(){
+        const id = this.props.navigation.getParam('id');
+        return await Action.getDeliveryDetail(id).then(res=>{
+            console.log(res)
+        })
+    }
+
+    async componentDidMount(){
+        await this.getDetail();
+    }
+
     render() {
+        const id = this.props.navigation.getParam('id');
         return (
             <ImageBackground style={styles.orderDetailContainer} source={require('../../assets/images/background.png')}>
                 <View style={styles.Order}>
@@ -29,14 +46,14 @@ export default class OrderDetail extends Component {
                             </View>
                         </View>
                         <View style={styles.lowerHeader}>
-                            <Text style={styles.orderID}>HOD2019116711</Text>
+                            <Text style={styles.orderID}>{id}</Text>
                         </View>
                     </View>
                     <Text style={styles.title}>Danh sách mặt hàng</Text>
                     <View style={styles.orderList}></View>
                     <Text style={styles.title}>Ghi chú</Text>
                     <View style={styles.orderNote}>
-                        <TextInput style={styles.noteInput}></TextInput>
+                        <TextInput multiline={true} style={styles.noteInput}></TextInput>
                     </View>
                     <View style={styles.confirmedButton}>
                         <Button block success>
@@ -106,6 +123,7 @@ const styles = StyleSheet.create({
         fontFamily: 'openSans',
         fontWeight:'400',
         marginTop:10,
+        textAlign:'center'
     },
     title: {
         fontSize: 18,
@@ -119,7 +137,6 @@ const styles = StyleSheet.create({
         height: 350,
         width: "90%",
         borderRadius: 10,
-        // margin: "5 25 15 25",
         marginTop: 5,
         marginRight: 10,
         marginLeft: 17,
@@ -139,7 +156,6 @@ const styles = StyleSheet.create({
     },
     confirmedButton:{
         flex:1,
-        //backgroundColor:"pink",
         width:300,
         alignSelf: 'center',
         marginTop:40,

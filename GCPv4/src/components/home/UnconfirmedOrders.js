@@ -5,77 +5,76 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    FlatList
 } from 'react-native';
 import {
     Icon,
     Button,
 } from 'native-base';
+import * as Action from '../../api/delivery.api';
 
 
 export default class UnconfirmedOrders extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            delivery: []
+        }
+    }
+
+    async getUnconfirmed() {
+        return await Action.getDeliveryOrder().then(res => {
+            console.log(res);
+            this.setState({
+                delivery: res
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    async componentDidMount() {
+        await this.getUnconfirmed();
+    }
+
+    getStatus(status) {
+        var message = '';
+        if (status == false) {
+            message = 'Đang giao hàng';
+        }
+        return message
+    }
 
     render() {
+        const { delivery } = this.state;
         return (
             <View style={styles.ordersBackground}>
                 <ScrollView>
-                    <View style={styles.ordersHolder}>
-                        <View style={styles.titleSection}>
-                            <Text style={styles.title}>HOC1456107</Text>
-                            <Text style={styles.status}>Đang giao hàng</Text>
-                        </View>
-                        <View style={styles.navigateButton}>
-                            <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail')}>
-                                <Image source={require('../../assets/images/navigateButton.png')} />
-                            </Button>
-                        </View>
-                    </View>
-                    <View style={styles.ordersHolder}>
-                        <View style={styles.titleSection}>
-                            <Text style={styles.title}>HOC1456107</Text>
-                            <Text style={styles.status}>Đang giao hàng</Text>
-                        </View>
-                        <View style={styles.navigateButton}>
-                            <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail')}>
-                                <Image source={require('../../assets/images/navigateButton.png')} />
-                            </Button>
-                        </View>
-                    </View>
-                    <View style={styles.ordersHolder}>
-                        <View style={styles.titleSection}>
-                            <Text style={styles.title}>HOC1456107</Text>
-                            <Text style={styles.status}>Đang giao hàng</Text>
-                        </View>
-                        <View style={styles.navigateButton}>
-                            <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail')}>
-                                <Image source={require('../../assets/images/navigateButton.png')} />
-                            </Button>
-                        </View>
-                    </View>
-                    <View style={styles.ordersHolder}>
-                        <View style={styles.titleSection}>
-                            <Text style={styles.title}>HOC1456107</Text>
-                            <Text style={styles.status}>Đang giao hàng</Text>
-                        </View>
-                        <View style={styles.navigateButton}>
-                            <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail')}>
-                                <Image source={require('../../assets/images/navigateButton.png')} />
-                            </Button>
-                        </View>
-                    </View>
-                    <View style={styles.ordersHolder}>
-                        <View style={styles.titleSection}>
-                            <Text style={styles.title}>HOC1456107</Text>
-                            <Text style={styles.status}>Đang giao hàng</Text>
-                        </View>
-                        <View style={styles.navigateButton}>
-                            <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail')}>
-                                <Image source={require('../../assets/images/navigateButton.png')} />
-                            </Button>
-                        </View>
-                    </View>
-                </ScrollView>
+                    <FlatList
+                        data={delivery}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => {
+                                if (item.status == false) {
+                                    return (
+                                        <View style={styles.ordersHolder}>
+                                            <View style={styles.titleSection}>
+                                                <Text style={styles.title}>{item.id}</Text>
+                                                <Text style={styles.status}>{this.getStatus(item.status)}</Text>
+                                            </View>
+                                            <View style={styles.navigateButton}>
+                                                <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail', { id: item.id })}>
+                                                    <Image source={require('../../assets/images/navigateButton.png')} />
+                                                </Button>
+                                            </View>
+                                        </View>
+                                    )
+                                }
+                            }
+                        }
+                    />
 
+                </ScrollView>
             </View>
         );
     }
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 5,   //Set radius
         shadowOpacity: 1.0, //Set Opacity
-        elevation:5, // Set elevation - A must have for android 5+
+        elevation: 5, // Set elevation - A must have for android 5+
     },
     ordersHolder: {
         flex: 1,
@@ -113,10 +112,10 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 5,   //Set radius
         shadowOpacity: 0.7, //Set Opacity
-        elevation:3, // Set elevation - A must have for android 5+
+        elevation: 3, // Set elevation - A must have for android 5+
     },
     title: {
-        fontSize: 18,
+        fontSize: 15,
         textAlign: 'center',
         fontFamily: "OpenSans",
         color: "black",
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
         flex: 1,
         borderLeftWidth: 1,
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
     },
     navigateImg: {
         alignSelf: 'center',
