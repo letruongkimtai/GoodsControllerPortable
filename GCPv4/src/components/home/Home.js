@@ -10,6 +10,7 @@ import Remind from './Remind';
 import UnconfirmedOrders from './UnconfirmedOrders';
 import AddButton from '../buttons/AddButton';
 import { styles } from '../../styling/styles';
+import OutOfStock from './OutOfStock';
 
 export default class Home extends Component {
     render() {
@@ -21,9 +22,7 @@ export default class Home extends Component {
                         <Text style={home.title}>Đơn hàng chưa xác nhận</Text>
                         <UnconfirmedOrders navigation={this.props.navigation} />
                         <Text style={home.title}>Hàng gần hết</Text>
-                        <View style={home.outOfStock} >
-                            <Text onPress={() => this.props.navigation.navigate('ProductList')}>outOfStock</Text>
-                        </View>
+                        <OutOfStock nav={this.props.navigation}/>
                     </ScrollView>
                 </View>
             </ImageBackground>
@@ -35,22 +34,6 @@ const home = StyleSheet.create({
     container: {
         flex: 1,
         marginBottom:7,
-    },
-    outOfStock: {
-        flex: 4,
-        backgroundColor: 'white',
-        marginLeft: 25,
-        height: 350,
-        width: 315,
-        borderRadius: 7,
-        shadowColor: '#000000', //Set color
-        shadowOffset: {
-            width: 2,     //Set width and height for shadow
-            height: 3
-        },
-        shadowRadius: 5,   //Set radius
-        shadowOpacity: 0.7, //Set Opacity
-        elevation:3, // Set elevation - A must have for android 5+
     },
     title: {
         fontSize: 20,

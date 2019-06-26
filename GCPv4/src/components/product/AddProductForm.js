@@ -93,8 +93,16 @@ export default class AddProductForm extends Component {
             if (prName != null && storage_id != null && amount != null && type_id != null && brand_id != null) {
                 return Action.addProduct(prName, amount, type_id, brand_id, storage_id).then(res => {
                     console.log(res);
-                    ToastAndroid.show('Thêm sản phẩm thành công', 2),
-                        this.props.nav.navigate('ProductList',{update:"Ok"})
+                    ToastAndroid.show('Thêm sản phẩm thành công', 2);
+                    this.props.nav.navigate('ProductList', { update: "Ok" });
+                    this.setState({
+                        prName: '',
+                        area: '',
+                        amount: 0,
+                        brand_id: null,
+                        type_id: null,
+                        storage_id: null,
+                    })
                 }).catch(err => {
                     console.log(err);
                 })
@@ -107,7 +115,7 @@ export default class AddProductForm extends Component {
     };
 
     handleBackPress() {
-        this.props.nav.navigate('Product');
+        this.props.nav.goBack();
     }
 
     async componentDidMount() {

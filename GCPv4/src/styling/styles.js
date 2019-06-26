@@ -46,6 +46,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         width:"85%",
         marginLeft:30,
+        marginTop:30,
     },
 
     headerTitle:{
