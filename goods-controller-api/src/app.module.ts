@@ -12,12 +12,13 @@ import { OrderDetailModule } from './order-detail/order-detail.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { DeliveryDetailModule } from './delivery-detail/delivery-detail.module';
 import { StorageModule } from './storage/storage.module';
+import { LogModule } from './log/log.module';
 
 
 
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule, BranchModule, UserModule, OrderModule, OrderDetailModule, DeliveryModule, DeliveryDetailModule, StorageModule], //define module in the root
+  imports: [TypeOrmModule.forRoot(), ProductTypeModule, BrandModule, ProductModule, BranchModule, UserModule, OrderModule, OrderDetailModule, DeliveryModule, DeliveryDetailModule, StorageModule, LogModule], //define module in the root
   controllers: [AppController],
   providers: [AppService],
 })
