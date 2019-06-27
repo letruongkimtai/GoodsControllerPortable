@@ -1,5 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository, createQueryBuilder,getRepository } from 'typeorm';
+import { Repository,getRepository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ProductEntity } from './product.entity';
@@ -27,7 +27,7 @@ export class ProductService {
 
     //Xem hang gan het.
     async outOfStock(){
-       const products = await getRepository(ProductEntity).createQueryBuilder("product").where("product.amount < 20").getMany();
+       const products = await getRepository(ProductEntity).createQueryBuilder("product").where("product.amount < 10").getMany();
        return products;
     }
 

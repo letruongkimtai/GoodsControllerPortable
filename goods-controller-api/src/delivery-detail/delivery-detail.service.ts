@@ -21,8 +21,8 @@ export class DeliveryDetailService {
         return await this.orderDetailRepository.find(data);
     } 
 
-    async showDetail(Id: string) {
-        return await this.orderDetailRepository.find({ deliveryId: Id });
+    async showDetail(deliveryId: string) {
+        return await this.orderDetailRepository.find({relations:['product'],where:{deliveryId}});
     }
 
     async deleteDetail(Id: string) {

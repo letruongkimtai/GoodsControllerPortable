@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DeliveryEntity } from './delivery.entity';
-import { Repository } from 'typeorm';
+import { Repository, getRepository,createQueryBuilder } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeliveryDTO } from './delivery.dto';
 
@@ -34,4 +34,10 @@ export class DeliveryService {
         await this.DeliveryRepository.delete({id});
         return {deleted:true};
     }
+
+    // async showUnconfirmed(){
+    //     const status = false;
+    //     const reciepts = getRepository(DeliveryEntity).createQueryBuilder("delivery").where("delivery.status := status",{status:status}).getMany();
+    //     return reciepts;
+    // }
 }
