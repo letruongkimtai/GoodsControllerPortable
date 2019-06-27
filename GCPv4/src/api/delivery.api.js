@@ -21,3 +21,29 @@ export function getDeliveryDetail(id) {
         console.log(err);
     })
 }
+
+export function updateDelivery(id,note){
+    return Axios.put("http://10.0.3.2:3000/delivery/" + id,{
+        "note":note
+    }).then(res=>{
+        console.log('====================================');
+        console.log(res.data);
+        console.log('====================================');
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+
+export function updateDeliveryDetail(id,status){
+    return Axios.put("http://10.0.3.2:3000/delivery-detail/" + id,{
+        "quality":status
+    }).then(res=>{
+        console.log('====================================');
+        console.log(res.data);
+        console.log('====================================');
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+}
