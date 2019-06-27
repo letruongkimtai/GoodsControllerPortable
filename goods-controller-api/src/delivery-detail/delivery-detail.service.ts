@@ -29,4 +29,8 @@ export class DeliveryDetailService {
         await this.orderDetailRepository.find({ deliveryId: Id });
         return { deleted: true };
     }
+    async updateDetail(deliveryId:string,data:Partial<DeliveryDetailDTO>){
+        await this.orderDetailRepository.update({deliveryId},data)
+        return this.orderDetailRepository.find({deliveryId});
+    }
 }
