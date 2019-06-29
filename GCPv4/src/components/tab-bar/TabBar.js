@@ -12,7 +12,11 @@ const SpotLight = posed.View({
 });
 
 const S = StyleSheet.create({
-    container: { flexDirection: "row", height: 55, elevation: 2 },
+    container: {
+        flexDirection: "row",
+        height: 55,
+        elevation:5,
+    },
     tabButton: { flex: 1, justifyContent: "center", alignItems: "center", borderRightWidth: 0.5, borderLeftWidth: 0.5, borderColor: '#ECE7E7', },
     spotLight: {
         width: tabWidth,
@@ -67,7 +71,7 @@ const TabBar = props => {
                             {renderIcon({ route, focused: isRouteActive, tintColor })}
                         </Scaler>
 
-                        <Text style={{fontSize:13,color:tintColor,marginTop:3}}>{getLabelText({ route })}</Text>
+                        <Text style={{ fontSize: 13, color: tintColor, marginTop: 3 }}>{getLabelText({ route })}</Text>
                     </TouchableOpacity>
                 );
             })}

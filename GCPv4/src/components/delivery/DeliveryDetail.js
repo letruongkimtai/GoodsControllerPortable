@@ -8,7 +8,8 @@ import {
     TextInput,
     ScrollView,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import {
     Button,
@@ -25,6 +26,7 @@ export default class OrderDetail extends Component {
             data: [],
             currentItem: null,
             note: "",
+            update:false
 
         }
     }
@@ -53,11 +55,14 @@ export default class OrderDetail extends Component {
     handleStatusPick(status) {
         const { data, currentItem } = this.state;
         data[currentItem].quality = status;
+        this.setState({
+            update:true
+        })
         console.log(data)
         this.refs.modal1.close()
     }
 
-    handleConfirmPress(id) {
+    handleOkPress(id) {
         const { data, note } = this.state
         return Action.updateDelivery(id, note).then(res => {
             console.log(res)
@@ -69,6 +74,13 @@ export default class OrderDetail extends Component {
                 })
             })
         )
+    }
+
+    handleConfirmPress(id) {
+        Alert.alert('Thông báo','Bạn có chắc chắn muốn xác nhận ?',[
+            {text:'Hủy', style:'cancel'},
+            {text:'Xác nhận', onPress:()=>this.handleOkPress(id)}
+        ],{cancelable:true})
     }
 
     render() {
@@ -97,6 +109,7 @@ export default class OrderDetail extends Component {
                                 <FlatList
                                     data={data}
                                     keyExtractor={(item, index) => index.toString()}
+                                    extraData={this.state}
                                     renderItem={({ item, index }) =>
                                         <View>
                                             <TouchableOpacity
@@ -257,7 +270,7 @@ const styles = StyleSheet.create({
     },
     itemCard: {
         width: "90%",
-        height: 110,
+        height: 125,
         backgroundColor: 'white',
         marginLeft: 17,
         marginBottom: 10,
