@@ -27,8 +27,8 @@ export default class OrderDetail extends Component {
             data: [],
             currentItem: null,
             note: "",
-            update:false,
-            totalAmount:0
+            update: false,
+            totalAmount: 0
         }
     }
 
@@ -42,7 +42,7 @@ export default class OrderDetail extends Component {
         })
     }
 
-   
+
 
     async componentDidMount() {
         await this.getDetail();
@@ -55,8 +55,8 @@ export default class OrderDetail extends Component {
         })
     }
 
-     getProductAmount(id){
-        return productAction.getProductAmount(id).then(res=>{
+    getProductAmount(id) {
+        return productAction.getProductAmount(id).then(res => {
             return res
         })
     }
@@ -65,7 +65,7 @@ export default class OrderDetail extends Component {
         const { data, currentItem } = this.state;
         data[currentItem].quality = status;
         this.setState({
-            update:true
+            update: true
         })
         console.log(data)
         this.refs.modal1.close()
@@ -74,30 +74,30 @@ export default class OrderDetail extends Component {
     handleOkPress(id) {
         const { data, note } = this.state
         Action.updateDelivery(id, note).then(data.map((value) => {
-                console.log(value.productProductId)
-                
-                this.getProductAmount(value.productProductId).then((amount)=>{
+            if (value.quality == "Đủ hàng") {
+                this.getProductAmount(value.productProductId).then((amount) => {
                     var deliveryAmount = value.quantity
                     var currAmount = amount;
                     var totalAmount = currAmount + deliveryAmount
                     console.log(totalAmount)
 
                     Action.updateDeliveryDetail(id, value.quality).then(
-                            productAction.updateProduct(value.productProductId,totalAmount).then(res=>{
-                                console.log(res);
-                                console.log('da update thanh cong')
-                            })
-                        )
+                        productAction.updateProduct(value.productProductId, totalAmount).then(res => {
+                            console.log(res);
+                            console.log('da update thanh cong')
+                        })
+                    )
                 })
-            })
+            }
+        })
         )
     }
 
     handleConfirmPress(id) {
-        Alert.alert('Thông báo','Bạn có chắc chắn muốn xác nhận ?',[
-            {text:'Hủy', style:'cancel'},
-            {text:'Xác nhận', onPress:()=>this.handleOkPress(id)}
-        ],{cancelable:true})
+        Alert.alert('Thông báo', 'Bạn có chắc chắn muốn xác nhận ?', [
+            { text: 'Hủy', style: 'cancel' },
+            { text: 'Xác nhận', onPress: () => this.handleOkPress(id) }
+        ], { cancelable: true })
     }
 
     render() {
@@ -174,10 +174,6 @@ export default class OrderDetail extends Component {
                     <Button success iconLeft style={{ marginLeft: 10, width: 110 }} onPress={() => this.handleStatusPick("Đủ hàng")}>
                         <Icon style={{ marginLeft: 10 }} type='FontAwesome5' name='check' />
                         <Text style={{ color: '#fff', fontSize: 17, marginLeft: 5, marginRight: 5 }}>Đủ hàng</Text>
-                    </Button>
-                    <Button warning iconLeft style={{ marginLeft: 10, width: 110 }} onPress={() => this.handleStatusPick("Thiếu hàng")}>
-                        <Icon style={{ marginLeft: 10 }} type='FontAwesome5' name='exclamation' />
-                        <Text style={{ color: '#fff', fontSize: 17, marginLeft: 5, marginRight: 5 }}>Thiếu hàng</Text>
                     </Button>
                     <Button danger iconLeft style={{ marginLeft: 10, marginRight: 10, width: 110 }} onPress={() => this.handleStatusPick("Không có hàng")}>
                         <Icon style={{ marginLeft: 10 }} type='FontAwesome5' name='times' />
