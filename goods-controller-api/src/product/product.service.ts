@@ -50,7 +50,7 @@ export class ProductService {
     //Update hàng.
     async updateProduct(product_id: string, data:Partial<ProductDTO>){
         await this.productRepository.update({product_id},data);
-        return await this.productRepository.findOne();
+        return await this.productRepository.findOne({product_id});
     }
 
     //Xóa hàng.
