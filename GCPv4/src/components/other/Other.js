@@ -10,7 +10,7 @@ export default class Other extends Component {
         return (
             <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
                 <UserInfo/>
-                <Menu/>
+                <Menu nav={this.props.navigation}/>
             </ImageBackground>
         );
     }

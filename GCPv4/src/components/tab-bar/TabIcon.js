@@ -3,8 +3,8 @@ import {Icon} from 'native-base'
 
 const iconMap = {
   home: 'home',
-  product: "box-open",
-  order: "receipt",
+  product: "box",
+  order: "truck",
   other: "ellipsis-h"
 };
 

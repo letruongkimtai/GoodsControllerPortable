@@ -16,6 +16,7 @@ import {
     Icon
 } from 'native-base';
 import * as Action from '../../api/delivery.api.js';
+import * as productAction from '../../api/product.api'
 import { textColor } from '../../styling/colors.js';
 import Modal from 'react-native-modalbox'
 
@@ -26,8 +27,8 @@ export default class OrderDetail extends Component {
             data: [],
             currentItem: null,
             note: "",
-            update:false
-
+            update:false,
+            totalAmount:0
         }
     }
 
@@ -41,6 +42,8 @@ export default class OrderDetail extends Component {
         })
     }
 
+   
+
     async componentDidMount() {
         await this.getDetail();
     }
@@ -49,6 +52,12 @@ export default class OrderDetail extends Component {
         await this.refs.modal1.open()
         await this.setState({
             currentItem: index,
+        })
+    }
+
+     getProductAmount(id){
+        return productAction.getProductAmount(id).then(res=>{
+            return res
         })
     }
 
@@ -64,13 +73,21 @@ export default class OrderDetail extends Component {
 
     handleOkPress(id) {
         const { data, note } = this.state
-        return Action.updateDelivery(id, note).then(res => {
-            console.log(res)
-        }).then(
-            data.map(value => {
-                Action.updateDeliveryDetail(id, value.quality).then(res => {
-                    console.log(res);
-                    console.log('da update thanh cong')
+        Action.updateDelivery(id, note).then(data.map((value) => {
+                console.log(value.productProductId)
+                
+                this.getProductAmount(value.productProductId).then((amount)=>{
+                    var deliveryAmount = value.quantity
+                    var currAmount = amount;
+                    var totalAmount = currAmount + deliveryAmount
+                    console.log(totalAmount)
+
+                    Action.updateDeliveryDetail(id, value.quality).then(
+                            productAction.updateProduct(value.productProductId,totalAmount).then(res=>{
+                                console.log(res);
+                                console.log('da update thanh cong')
+                            })
+                        )
                 })
             })
         )

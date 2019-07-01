@@ -15,7 +15,7 @@ import * as Key from '../../common/StorageKey';
 export default class Menu extends Component {
     LogOut() {
         Store.saveData(Key.UserData, null);
-        this.props.navigation.navigate('Login');
+        this.props.nav.navigate('Login');
         ToastAndroid.show('Bye Bye!!!', 2);
     }
     render() {
@@ -51,10 +51,10 @@ export default class Menu extends Component {
                             <Icon style={{ color: '#432613' }} type='FontAwesome5' name='clipboard-list' />
                         </View>
                         <View style={menu.name}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: '400', fontFamily: 'inherit' }}>Lịch sử đặt hàng</Text>
+                            <Text style={{ fontSize: 20, color: '#000', fontWeight: '400', fontFamily: 'inherit' }}>Thống kê tồn kho</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={menu.function}>
+                    <TouchableOpacity style={menu.function} onPress={()=>this.LogOut()}>
                         <View style={menu.icon}>
                             <Icon style={{ color: '#c4c1bc' }} type='FontAwesome5' name='door-open' />
                         </View>

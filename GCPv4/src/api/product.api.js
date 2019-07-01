@@ -107,3 +107,27 @@ export function outOfStockItems(){
         console.log(err);
     })
 }
+
+////=============================Update product================================//
+export function updateProduct(id,amount){
+    return Axios.put("http://10.0.3.2:3000/product/"+id,{
+        "amount":amount,
+    }).then(res=>{
+        console.log('===============Api result=====================');
+        console.log(res.data);
+        console.log('===============Render result=====================');
+        return res.data
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+export function getProductAmount(id){
+    return Axios.get("http://10.0.3.2:3000/product/"+id).then(res=>{
+        console.log('================Api result====================');
+        console.log(res.data.amount);
+        console.log('================Render result====================');
+        return res.data.amount;
+    }).catch(err=>{
+        console.log(err);
+    })
+}
