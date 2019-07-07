@@ -65,6 +65,11 @@ export default class ProductList extends Component {
         console.log(id)
     }
 
+    _refresh = () => {
+        this.setState({refreshing: true});
+        this.productList();
+      }
+
     render() {
         const { refreshing } = this.state
         return (
