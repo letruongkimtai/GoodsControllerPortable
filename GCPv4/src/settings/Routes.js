@@ -25,72 +25,19 @@ const HomeStack = createStackNavigator({
         navigationOptions: {
             header: null
         }
+    },
+    DeliveryDetail: {
+        screen: DeliveryDetail,
+        navigationOptions: {
+            header: null
+        }
     }
 },
     { initialRouteName: 'Home' }
 );
 
-const MainStack = createBottomTabNavigator({
-    Home: {
-        screen: HomeStack,
-        navigationOptions: {
-            tabBarLabel: 'Trang chủ',
-            tabBarIcon: ({tintColor})=><TabIcon name='home' color={tintColor}/>
-        },
-    },
+const ProductStack = createStackNavigator({
     Product: {
-        screen: ProductList,
-        navigationOptions: {
-            tabBarLabel: 'Sản phẩm',
-            tabBarIcon:({tintColor})=><TabIcon name='product' color={tintColor}/>
-        },
-    },
-    OrderList: {
-        screen: OrderList,
-        navigationOptions: {
-            tabBarLabel: 'Đặt hàng',
-            tabBarIcon: ({tintColor})=><TabIcon name='order' color={tintColor}/>
-        },
-    },
-    Others: {
-        screen: Other,
-        navigationOptions: {
-            tabBarLabel: 'Khác',
-            tabBarIcon: ({tintColor})=><TabIcon name='other' color={tintColor}/>,
-            
-        },
-    },
-
-},
-    {
-        tabBarComponent:TabBar,
-        swipeEnabled:true,
-    }
-)
-
-const AppStack = createStackNavigator(
-    {
-        Main: {
-            screen: MainStack,
-        },
-        ProductModal: {
-            screen: AddProductModal,
-        }
-    },
-    {
-        mode:'modal',
-        headerMode:'none'
-    }
-)
-
-const rootStack = createStackNavigator({
-    Home: {
-        screen: AppStack,
-        navigationOptions: {
-            header: null
-        }
-    },
-    ProductList: {
         screen: ProductList,
         navigationOptions: {
             header: null
@@ -102,34 +49,117 @@ const rootStack = createStackNavigator({
             header: null
         }
     },
-    DeliveryDetail: {
-        screen: DeliveryDetail,
+},
+    { initialRouteName: 'Product' }
+)
+
+const OrderStack = createStackNavigator({
+    OrderList: {
+        screen: OrderList,
         navigationOptions: {
-            header: null,
+            header: null
         }
     },
     OrderDetail: {
         screen: OrderDetail,
         navigationOptions: {
-            header: null,
+            header: null
         }
     },
-    AddOrder:{
+},
+    { initialRouteName: 'OrderList' }
+)
+
+
+const OtherStack = createStackNavigator({
+    OtherMenu: {
+        screen: Other,
+        navigationOptions: {
+            header: null
+        }
+    },
+},
+    { initialRouteName: 'OtherMenu' }
+)
+
+const MainStack = createBottomTabNavigator({
+    Home: {
+        screen: HomeStack,
+        navigationOptions: {
+            tabBarLabel: 'Trang chủ',
+            tabBarIcon: ({ tintColor }) => <TabIcon name='home' color={tintColor} />
+        },
+    },
+    Product: {
+        screen: ProductStack,
+        navigationOptions: {
+            tabBarLabel: 'Sản phẩm',
+            tabBarIcon: ({ tintColor }) => <TabIcon name='product' color={tintColor} />
+        },
+    },
+    OrderList: {
+        screen: OrderStack,
+        navigationOptions: {
+            tabBarLabel: 'Đặt hàng',
+            tabBarIcon: ({ tintColor }) => <TabIcon name='order' color={tintColor} />
+        },
+    },
+    Others: {
+        screen: OtherStack,
+        navigationOptions: {
+            tabBarLabel: 'Khác',
+            tabBarIcon: ({ tintColor }) => <TabIcon name='other' color={tintColor} />,
+
+        },
+    },
+
+},
+    {
+        tabBarComponent: TabBar,
+    }
+)
+
+//Modal stack
+const AppStack = createStackNavigator(
+    {
+        Main: {
+            screen: MainStack,
+        },
+        ProductModal: {
+            screen: AddProductModal,
+        }
+    },
+    {
+        mode: 'modal',
+        headerMode: 'none'
+    }
+)
+
+
+//Main stack
+const rootStack = createStackNavigator({
+    Home: {
+        screen: AppStack,
+        navigationOptions: {
+            header: null
+        }
+    },
+    AddOrder: {
         screen: AddOrder,
-        navigationOptions:{
+        navigationOptions: {
             header: null,
         }
     },
-    Confirm:{
+    Confirm: {
         screen: ConfigNConfirm,
-        navigationOptions:{
-            header:null,
+        navigationOptions: {
+            header: null,
         }
     },
-    Success:{
+    Success: {
         screen: Success,
-        navigationOptions:{
-            header:null,
+        navigationOptions: {
+            header: null,
         }
     }
 })

@@ -98,7 +98,7 @@ export default class ProductList extends Component {
                                 data={this.state.product}
                                 keyExtractor={(item, index) => index.toString()}
                                 refreshing={refreshing}
-                                onRefresh={() => { this._refresh() }}
+                                onRefresh={() => this._refresh() }
                                 extraData={this.state}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity

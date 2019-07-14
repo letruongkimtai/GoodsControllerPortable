@@ -8,6 +8,9 @@ export const BackgroundColor = StyleSheet.create({
     },
     danger:{
         backgroundColor:'#C30B0B'
+    },
+    disable:{
+        backgroundColor:'#b9b9b9'
     }
 })
 export const textColor = StyleSheet.create({

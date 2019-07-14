@@ -25,6 +25,7 @@ export default class AddOrder extends Component {
             orderItems: [],
             totalProducts: 0,
             taken: 0,
+            refreshing: false,
         }
     };
 
@@ -32,7 +33,8 @@ export default class AddOrder extends Component {
         return ProductAction.outOfStockItems().then(res => {
             console.log(res);
             this.setState({
-                products: res
+                products: res,
+                refreshing:false
             })
         }).catch(err => {
             console.log(err);
@@ -42,6 +44,14 @@ export default class AddOrder extends Component {
     async componentDidMount() {
         this.getOutOfStockProducts();
     };
+
+    componentDidUpdate() {
+        const { orderItems } = this.state
+        if (this.props.navigation.getParam('reset') != null) {
+            orderItems.length = 0;
+            this.getOutOfStockProducts()
+        }
+    }
 
     //Check xem hang co trong danh sach chua
     isItemValid(id) {
@@ -78,20 +88,6 @@ export default class AddOrder extends Component {
         }
     };
 
-    addPressCounter() {
-        const countPress = this.state.taken + 1;
-        this.setState({ taken: countPress });
-    }
-
-    minusPressCounter() {
-        if (this.state.taken > 0) {
-            const countPress = this.state.taken - 1;
-            this.setState({ taken: countPress });
-        } else {
-            alert('Hàng lấy không được nhỏ hơn 0')
-        }
-    }
-
     handleConfirmNav() {
         const { orderItems, totalProducts } = this.state;
         if (totalProducts == 0) {
@@ -107,8 +103,13 @@ export default class AddOrder extends Component {
         // })
     };
 
+    _refresh = () => {
+        this.setState({ refreshing: true });
+        this.getOutOfStockProducts()
+    }
+
     render() {
-        const { products, totalProducts, taken, orderItems } = this.state
+        const { products, refreshing, taken, orderItems } = this.state
         console.log(taken)
         return (
             <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
@@ -128,6 +129,8 @@ export default class AddOrder extends Component {
                         <FlatList
                             data={products}
                             keyExtractor={(item, index) => index.toString()}
+                            refreshing={refreshing}
+                            onRefresh={() => this._refresh()}
                             extraData={this.state}
                             renderItem={({ item }) =>
                                 <View style={order.itemCard}>
@@ -151,10 +154,10 @@ export default class AddOrder extends Component {
                                             />
                                         </View>
                                     </View>
-                                    <View style={[order.addButton, BackgroundColor.success]}>
+                                    <View style={[order.addButton, orderItems.length === 0 ? BackgroundColor.success : (this.isItemValid(item.product_id) ? BackgroundColor.disable : BackgroundColor.success)]}>
                                         <Button transparent
                                             onPress={() => this.handleAddPress(item.product_name, item.product_id)}>
-                                            <Icon style={{ marginLeft: 30, color: 'white' }} type="FontAwesome5" name="plus" />
+                                            <Icon style={{ marginLeft: 30, color: 'white' }} type="FontAwesome5" name={orderItems.length === 0 ? "plus" : this.isItemValid(item.product_id) ? "times" : "plus"} />
                                         </Button>
                                     </View>
                                 </View>
@@ -164,12 +167,13 @@ export default class AddOrder extends Component {
                 </View>
                 <View style={order.footer}>
                     <TouchableOpacity style={order.totalAmount} onPress={() => this.refs.modal1.open()}>
-                        <Text style={order.amount}>Số lượng mặt hàng: {totalProducts}</Text>
+                        <Text style={order.amount}>Số lượng mặt hàng: {orderItems.length}</Text>
                     </TouchableOpacity>
                     <View style={order.navButton}>
                         <Icon onPress={() => this.handleConfirmNav()} style={{ color: 'black' }} type="FontAwesome5" name="arrow-right" />
                     </View>
                 </View>
+                {/* modal */}
                 <Modal
                     coverScreen={true}
                     style={[order.modal]}
@@ -180,7 +184,7 @@ export default class AddOrder extends Component {
                             <Text style={[order.title, textColor.headerButton, order.backTitle]}
                                 onPress={() => this.refs.modal1.close()}>
                                 Quay Lại
-                        </Text>
+                            </Text>
                         </View>
                         <View style={order.headerTitle}>
                             <Text style={order.title}>Chi tiết đơn hàng</Text>
@@ -221,10 +225,10 @@ const order = StyleSheet.create({
     modal: {
         flex: 1
     },
-    modalHeader:{
-        height:55,
-        width:"100%",
-        display:'flex',
+    modalHeader: {
+        height: 55,
+        width: "100%",
+        display: 'flex',
         flexDirection: 'row',
         backgroundColor: 'white',
         shadowColor: '#000000', //Set color

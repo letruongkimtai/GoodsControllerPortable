@@ -43,3 +43,14 @@ export function pushOrder(orderID,productId,amount){
         return err;
     })
 }
+
+export function getOrderDetail(id) {
+    return Axios.get("http://10.0.3.2:3000/order-detail/" + id).then(res=>{
+        console.log('====================================');
+        console.log(res.data);
+        console.log('====================================');
+        return res.data;
+    }).catch(err=>{
+        console.log(err);
+    })
+}

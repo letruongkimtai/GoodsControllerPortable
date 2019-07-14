@@ -25,7 +25,8 @@ export default class ConfigNConfirm extends Component {
         this.state = {
             taken: 0,
             productsList: [],
-            user:{},
+            user: {},
+            update: false
         }
     }
 
@@ -34,30 +35,30 @@ export default class ConfigNConfirm extends Component {
         const data = await Storage.getData(Key.UserData);
         this.setState({
             productsList: list,
-            user:data,
+            user: data,
         })
         console.log(list)
     }
 
-    handleOrderPress(){
-        Alert.alert('Thông báo','Bạn đã kiểm tra đơn hàng kỹ chưa vì đơn hàng này sẽ gửi lên kho tổng',[
-            {text:'Hủy', style:'cancel'},
-            {text:'Gửi', onPress:()=>this.handleOkPress()}
-        ],{cancelable:true})
+    handleOrderPress() {
+        Alert.alert('Thông báo', 'Bạn đã kiểm tra đơn hàng kỹ chưa vì đơn hàng này sẽ gửi lên kho tổng', [
+            { text: 'Hủy', style: 'cancel' },
+            { text: 'Gửi', onPress: () => this.handleOkPress() }
+        ], { cancelable: true })
     }
 
     handleOkPress() {
-        const{productsList,user} = this.state;
-        OrderAction.createOrder(false,user.user_id).then(res=>{
-            productsList.map((value)=>{
-                OrderAction.pushOrder(res,value.product_id,value.order_amount).then(res=>{
+        const { productsList, user } = this.state;
+        OrderAction.createOrder(false, user.user_id).then(res => {
+            productsList.map((value) => {
+                OrderAction.pushOrder(res, value.product_id, value.order_amount).then(res => {
                     console.log('Successfully pushing product..!!')
-                    this.props.navigation.navigate('Success',{order_id:value.product_id})
-                }).catch(err=>{
+                    this.props.navigation.navigate('Success', { order_id: value.product_id })
+                }).catch(err => {
                     console.log(err);
                 })
             })
-        }).catch(err=>{
+        }).catch(err => {
             console.log(err);
         })
     }
@@ -66,8 +67,25 @@ export default class ConfigNConfirm extends Component {
         this.props.navigation.goBack();
     }
 
+    async handleItemDeletePress(index) {
+        const { productsList } = this.state;
+        await productsList.splice(index);
+        if (productsList.length == 0) this.props.navigation.navigate('AddOrder', { reset: "yes" })
+        else {
+            this.setState({
+                update: true,
+            })
+        }
+    }
+    
+    handleOrderDeletePress(){
+        const { productsList } = this.state;
+        this.props.navigation.navigate('AddOrder', { reset: "yes" })
+        productsList.length = 0;
+    }
+
     render() {
-        const { productsList,user } = this.state
+        const { productsList, user } = this.state
         return (
             <ImageBackground style={styles.backGround} source={require('../../assets/images/background.png')}>
                 <View style={confirm.productsList}>
@@ -75,7 +93,7 @@ export default class ConfigNConfirm extends Component {
                         <Text style={confirm.listTitle}>Danh sách sản phẩm</Text>
                     </View>
                     <View style={confirm.listButton}>
-                        <Button style={{ marginRight: 7 }} small danger iconLeft>
+                        <Button style={{ marginRight: 7 }} small danger iconLeft onPress={()=>this.handleOrderDeletePress()}>
                             <Text style={confirm.nonIconButtonTitle}>Hủy đơn hàng</Text>
                             <Icon style={{ color: 'white' }} type='FontAwesome5' name='exclamation-triangle' />
                         </Button>
@@ -101,7 +119,7 @@ export default class ConfigNConfirm extends Component {
                                     data={productsList}
                                     keyExtractor={(item, index) => index.toString()}
                                     extraData={this.state}
-                                    renderItem={({ item }) =>
+                                    renderItem={({ item,index }) =>
                                         <View style={confirm.itemCard}>
                                             <View style={[confirm.productName]}>
                                                 <Text style={{ fontSize: 16, color: 'black', }}>{item.product_name}</Text>
@@ -109,13 +127,12 @@ export default class ConfigNConfirm extends Component {
                                             <View style={[confirm.productAmount]}>
                                                 <Text style={{ fontSize: 16, color: 'black', }}>{item.order_amount}</Text>
                                             </View>
-                                            <View style={[confirm.deleteButton, BackgroundColor.danger]}>
+                                            <TouchableOpacity onPress={() => this.handleItemDeletePress(index)} style={[confirm.deleteButton, BackgroundColor.danger]}>
                                                 <Icon style={{ color: 'white' }} type='FontAwesome5' name='trash' />
-                                            </View>
+                                            </TouchableOpacity>
                                         </View>
                                     }
                                 />
-
                             </ScrollView>
                         </View>
                     </View>
@@ -140,7 +157,7 @@ export default class ConfigNConfirm extends Component {
                 <View style={confirm.buttonHolder}>
 
                     <Button block iconLeft large style={BackgroundColor.success}
-                            onPress={()=>this.handleOrderPress()}>
+                        onPress={() => this.handleOrderPress()}>
                         <Text style={confirm.bottomButtonTitle}>Đặt hàng</Text>
                         <Icon style={{ color: 'white' }} type='FontAwesome5' name='check' />
                     </Button>
