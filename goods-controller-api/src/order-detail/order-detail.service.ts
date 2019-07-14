@@ -21,8 +21,8 @@ export class OrderDetailService {
         return await this.orderDetailRepository.find(data);
     }
 
-    async showOrderDetail(Id: string) {
-        return await this.orderDetailRepository.find({ orderId: Id });
+    async showOrderDetail(orderId: string) {
+        return await this.orderDetailRepository.find({relations :['product'],where:{orderId}});
     }
 
     async deleteDetail(Id: string) {
