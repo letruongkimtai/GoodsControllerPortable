@@ -93,8 +93,8 @@ export default class OrderList extends Component {
                                 <View style={orderList.itemCard}>
                                     <View style={orderList.orderInfo}>
                                         <View style={[orderList.orderStatus]}>
-                                            <Text style={orderList.status}>{item.created}</Text>
-                                            <Text style={orderList.status}>{this.getStatus(item.status).toString()}</Text>
+                                            <Text style={orderList.status}>{item.created.toString().substring(0,10)}</Text>
+                                            <Text style={orderList.status}>{this.getStatus(item.status)}</Text>
                                         </View>
                                     </View>
                                     <View style={orderList.navButton}>

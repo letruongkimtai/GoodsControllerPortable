@@ -11,7 +11,10 @@ import {
     ToastAndroid
 } from 'react-native';
 import * as Action from '../../api/product.api'
+import * as LogAction from '../../api/log.api'
 import { styles } from '../../styling/styles';
+import * as Storage from '../../common/Storage';
+import * as Key from '../../common/StorageKey'
 
 
 export default class ProductDetails extends Component {
@@ -21,7 +24,9 @@ export default class ProductDetails extends Component {
                 data: {},
                 taken: 0,
                 status: '',
-                storage:{}
+                storage:{},
+                user:'',
+                product_name:''
             }
     }
 
@@ -32,7 +37,8 @@ export default class ProductDetails extends Component {
         return await Action.productById(id).then(res => {
             this.setState({
                 data: res,
-                storage:res.storage
+                storage:res.storage,
+                product_name:res.product_name
             })
             console.log(res);
         }).catch(err => {
@@ -62,13 +68,13 @@ export default class ProductDetails extends Component {
 
     handleTakePress(id, taken) {
         if (taken != 0) {
-            const { data } = this.state
+            const { data,product_name,user } = this.state
             const updatedAmount = data.amount - taken
             return Action.takeProduct(id, updatedAmount).then(res => {
                 console.log(res);
                 ToastAndroid.show('Lấy hàng thành công', 2)
                 this.getProductInfo();
-            }).catch(err => {
+            }).then(LogAction.createLog(product_name,taken,user)).catch(err => {
                 console.log(err)
             })
         } else {
@@ -79,6 +85,11 @@ export default class ProductDetails extends Component {
     async componentDidMount() {
         await this.getProductInfo();
         await this.getStatus()
+        const data = await Storage.getData(Key.UserData);
+        this.setState({
+            user:data.given_name,
+        })
+        console.log(this.state.user)
     }
 
     render() {

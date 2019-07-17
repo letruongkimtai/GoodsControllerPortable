@@ -18,19 +18,12 @@ export default class Menu extends Component {
         this.props.nav.navigate('Login');
         ToastAndroid.show('Bye Bye!!!', 2);
     }
+
     render() {
         return (
             <View style={menu.functionList}>
                 <ScrollView>
-                    <TouchableOpacity style={menu.function}>
-                        <View style={menu.icon}>
-                            <Icon style={{ color: '#2b9abd' }} type='FontAwesome5' name='user-tie' />
-                        </View>
-                        <View style={menu.name}>
-                            <Text style={{ fontSize: 20, color: '#000', fontWeight: '400', fontFamily: 'inherit' }}>Thông tin người dùng</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={menu.function}>
+                    <TouchableOpacity style={menu.function} onPress={()=>this.props.nav.navigate('Notification')}>
                         <View style={menu.icon}>
                             <Icon style={{ color: '#f5d742' }} type='FontAwesome5' name='bell' />
                         </View>
@@ -38,7 +31,7 @@ export default class Menu extends Component {
                             <Text style={{ fontSize: 20, color: '#000', fontWeight: '400', fontFamily: 'inherit' }}>Thông báo</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={menu.function}>
+                    <TouchableOpacity style={menu.function} onPress={()=>this.props.nav.navigate('Log')}>
                         <View style={menu.icon}>
                             <Icon style={{ color: '#daab6c' }} type='FontAwesome5' name='boxes' />
                         </View>
@@ -46,7 +39,7 @@ export default class Menu extends Component {
                             <Text style={{ fontSize: 20, color: '#000', fontWeight: '400', fontFamily: 'inherit' }}>Lịch sử lấy hàng</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={menu.function}>
+                    <TouchableOpacity style={menu.function} onPress={()=>this.props.nav.navigate('Statistic')}>
                         <View style={menu.icon}>
                             <Icon style={{ color: '#432613' }} type='FontAwesome5' name='clipboard-list' />
                         </View>

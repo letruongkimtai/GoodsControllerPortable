@@ -22,9 +22,10 @@ export function getDeliveryDetail(id) {
     })
 }
 
-export function updateDelivery(id,note){
+export function updateDelivery(id,note,status){
     return Axios.put("http://10.0.3.2:3000/delivery/" + id,{
-        "note":note
+        "note":note,
+        "status":status
     }).then(res=>{
         console.log('====================================');
         console.log(res.data);

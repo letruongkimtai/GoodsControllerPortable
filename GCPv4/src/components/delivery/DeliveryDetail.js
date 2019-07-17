@@ -9,7 +9,8 @@ import {
     ScrollView,
     TouchableOpacity,
     FlatList,
-    Alert
+    Alert,
+    ToastAndroid
 } from 'react-native';
 import {
     Button,
@@ -73,7 +74,7 @@ export default class OrderDetail extends Component {
 
     handleOkPress(id) {
         const { data, note } = this.state
-        Action.updateDelivery(id, note).then(data.map((value) => {
+        Action.updateDelivery(id, note,true).then(data.map((value) => {
             if (value.quality == "Đủ hàng") {
                 this.getProductAmount(value.productProductId).then((amount) => {
                     var deliveryAmount = value.quantity
@@ -84,13 +85,16 @@ export default class OrderDetail extends Component {
                     Action.updateDeliveryDetail(id, value.quality).then(
                         productAction.updateProduct(value.productProductId, totalAmount).then(res => {
                             console.log(res);
-                            console.log('da update thanh cong')
+                            console.log('Đã nhập kho thành công');
                         })
                     )
                 })
             }
-        })
+        })).then(
+            this.props.navigation.navigate('Home',{update: 'yes'}),
+            ToastAndroid.show('Đã nhập kho thành công..!!!',2)
         )
+        
     }
 
     handleConfirmPress(id) {

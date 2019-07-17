@@ -18,31 +18,28 @@ export default class LoginForm extends Component {
         this.state = {
             userName: '',
             password: '',
+            given_name: '',
             data: {},
         }
     }
 
-    
-    async componentDidMount(){
-        try{
+    async componentWillMount() {
+        try {
             const user = await Store.getData(Key.UserData);
             console.log(user.token);
-    
-            if(JSON.stringify(user.token) != null){
-                ToastAndroid.show('hi ' + JSON.stringify(user.given_name),2);
+            if (user.token != null) {
+                ToastAndroid.show('Welcome back ' + user.given_name, 2);
                 this.props.nav.navigate('Home');
             }
-        }catch(e){
+        } catch (e) {
             return null
         }
-        
     }
 
     render() {
         return (
             <View style={login.form}>
                 <View style={login.input}>
-
                     <TextInput style={login.infoInput}
                         placeholder='Tên đăng nhập'
                         placeholderTextColor='white'
@@ -79,7 +76,7 @@ export default class LoginForm extends Component {
                 if (this.state.data.token != null) {
                     ToastAndroid.show('Welcome ' + this.state.data.given_name, 3);
                     this.props.nav.navigate('Home');
-                    Store.saveData('UserData',res);
+                    Store.saveData('UserData', res);
                 }
                 else
                     Alert.alert('Cảnh báo', 'Tên đăng nhập hoặc mật khẩu không đúng..!!')

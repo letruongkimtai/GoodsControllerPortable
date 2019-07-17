@@ -18,6 +18,10 @@ import Success from '../components/order/Success';
 import TabBar from '../components/tab-bar/TabBar';
 // import { Icon } from 'native-base';
 import TabIcon from '../components/tab-bar/TabIcon'
+import User from '../components/other/User';
+import Notification from '../components/other/Notification';
+import Log from '../components/other/Log';
+import Statistic from '../components/other/Statistic';
 
 const HomeStack = createStackNavigator({
     Home: {
@@ -78,6 +82,31 @@ const OtherStack = createStackNavigator({
             header: null
         }
     },
+    User:{
+        screen: User,
+        navigationOptions:{
+            headerTitle:'Thông tin người dùng'
+        }
+    },
+    Notification:{
+        screen:Notification,
+        navigationOptions:{
+            headerTitle:'Thông Báo'
+        }
+    },
+    Log:{
+        screen:Log,
+        navigationOptions:{
+            headerTitle:'Lịch sử lấy hàng',
+            
+        }
+    },
+    Statistic:{
+        screen:Statistic,
+        navigationOptions:{
+            headerTitle:'Thống kê tồn kho'
+        }
+    }
 },
     { initialRouteName: 'OtherMenu' }
 )

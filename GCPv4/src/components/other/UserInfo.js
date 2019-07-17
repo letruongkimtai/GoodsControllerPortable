@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import * as Storage from '../../common/Storage';
 import * as Key from '../../common/StorageKey'
-import { Icon } from 'native-base';
 
 
 export default class UserInfo extends Component {

@@ -21,6 +21,12 @@ export default class OutOfStock extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps){
+            this.getOutOfStockProducts()
+        }
+    }
+
     async getOutOfStockProducts() {
         return await ProductAction.outOfStockItems().then(res => {
             console.log(res);
@@ -49,6 +55,7 @@ export default class OutOfStock extends Component {
     }
 
     render() {
+        console.log(this.props.update)
             return (
                 <View style={list.container}>
                     <ScrollView>

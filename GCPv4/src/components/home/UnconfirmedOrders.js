@@ -19,7 +19,13 @@ export default class UnconfirmedOrders extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            delivery: []
+            delivery: [],
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps){
+            this.getUnconfirmed()
         }
     }
 
@@ -46,6 +52,7 @@ export default class UnconfirmedOrders extends Component {
         return message
     }
 
+
     render() {
         const { delivery } = this.state;
         return (
@@ -54,23 +61,24 @@ export default class UnconfirmedOrders extends Component {
                     <FlatList
                         data={delivery}
                         keyExtractor={(item, index) => index.toString()}
+                        extraData={this.state}
                         renderItem={({ item }) => {
-                                if (item.status == false) {
-                                    return (
-                                        <View style={styles.ordersHolder}>
-                                            <View style={styles.titleSection}>
-                                                <Text style={styles.title}>{item.id}</Text>
-                                                <Text style={styles.status}>{this.getStatus(item.status)}</Text>
-                                            </View>
-                                            <View style={styles.navigateButton}>
-                                                <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail', { id: item.id })}>
-                                                    <Image source={require('../../assets/images/navigateButton.png')} />
-                                                </Button>
-                                            </View>
+                            if (item.status == false) {
+                                return (
+                                    <View style={styles.ordersHolder}>
+                                        <View style={styles.titleSection}>
+                                            <Text style={styles.title}>{item.id}</Text>
+                                            <Text style={styles.status}>{this.getStatus(item.status)}</Text>
                                         </View>
-                                    )
-                                }
+                                        <View style={styles.navigateButton}>
+                                            <Button transparent style={styles.navigateImg} onPress={() => this.props.navigation.navigate('DeliveryDetail', { id: item.id })}>
+                                                <Image source={require('../../assets/images/navigateButton.png')} />
+                                            </Button>
+                                        </View>
+                                    </View>
+                                )
                             }
+                        }
                         }
                     />
 
